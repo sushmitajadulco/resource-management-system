@@ -2,10 +2,6 @@ package com.idt.boot.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.FetchType;
-
-import com.idt.boot.entity.Developer;
-
 
 public class ProjectDto {
 
@@ -13,18 +9,7 @@ public class ProjectDto {
 
     private String description;
     
-    private List<Developer> members = new ArrayList<>();
 
-	public List<Developer> getMembers() {
-		return members;
-	}
-
-	public void setMembers(List<Developer> members) {
-		if (members == null) {
-			members = new ArrayList<>();
-		}
-		this.members = members;
-	}
 
 	public String getName() {
 		return name;

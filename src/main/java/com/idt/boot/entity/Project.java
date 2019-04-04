@@ -2,6 +2,7 @@ package com.idt.boot.entity;
 
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -14,43 +15,21 @@ public class Project {
     private Long id;
 
     @Column(name = "name", nullable = false)
-    private String name;
+    private String percentage;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
-    @OneToMany
-    private List<Developer> members = new ArrayList<>();
+    @Column(name = "startDate")
+    private Date startDate;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "endDate")
+    private Date endDate;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Column(name = "allocation")
+    private String allocation;
+//
+//    @OneToMany
+//    private List<Allocation> allocations = new ArrayList<>();
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<Developer> getMembers() {
-        return members;
-    }
-
-    public void setMembers(List<Developer> members) {
-        this.members = members;
-    }
 }

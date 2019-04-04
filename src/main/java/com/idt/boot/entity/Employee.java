@@ -10,44 +10,17 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "employee_no", unique = true)
-    private String employeeNo;
-
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "job_title", nullable = false)
-    private String jobTitle;
+    @Column(name = "designationID", nullable = false)
+    private Long designation;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "levelID", nullable = false)
+    private Long level;
 
-    public void setId(final Long id) {
-        this.id = id;
-    }
+    @Column(name = "projectID", nullable = false)
+    private Long project;
 
-    public String getEmployeeNo() {
-        return employeeNo;
-    }
 
-    public void setEmployeeNo(String employeeNo) {
-        this.employeeNo = employeeNo;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    public String getJobTitle() {
-        return jobTitle;
-    }
-
-    public void setJobTitle(final String jobTitle) {
-        this.jobTitle = jobTitle;
-    }
 }
