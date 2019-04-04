@@ -4,11 +4,24 @@ CREATE SCHEMA rmsdb;
 
 DROP TABLE IF EXISTS rmsdb.projects;
 
+CREATE TABLE rmsdb.allocations (
+    percentage VARCHAR(50) NOT NULL
+    PRIMARY KEY (percentage)
+);
+
+INSERT INTO rmsdb.allocations ( percentage ) VALUES ('0.1'), ('0.25'), ('0.5'), ('0.75');
+
+DROP TABLE IF EXISTS rmsdb.projects;
+
 CREATE TABLE rmsdb.projects (
     id BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL,
-    PRIMARY KEY (id)
+	startDate Date,
+	endDate Date,
+	allocation VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id),
+	FOREIGN KEY (allocation) REFERENCES allocations(percentage)
 );
 
 INSERT INTO rmsdb.projects ( name, description) VALUES ('Artemis', 'volunteer application');
@@ -47,6 +60,7 @@ INSERT INTO rmsdb.designations ( name, description) VALUES ('iOS Developer', 'iO
 INSERT INTO rmsdb.designations ( name, description) VALUES ('Project Manager', 'speaks to clients of each project');
 INSERT INTO rmsdb.designations ( name, description) VALUES ('UI/UX Designer', 'designs the UI and UX of applications');
 
+
 DROP TABLE IF EXISTS rmsdb.employees;
 
 CREATE TABLE rmsdb.employees (
@@ -70,3 +84,5 @@ GRANT ALL PRIVILEGES ON rmsdb.* TO 'rms-user'@'%';
 GRANT INSERT, UPDATE, SELECT, DELETE ON rmsdb.* TO 'rms-user'@'%';
 
 FLUSH PRIVILEGES;
+
+
