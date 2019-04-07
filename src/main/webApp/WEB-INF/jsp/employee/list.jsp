@@ -17,7 +17,7 @@
 
               <div class="card-body card-content">
                 <div class="table-responsive">
-                    <table id="project-table" class="table table-striped table-bordered" style="width:100%">
+                    <table id="employee-table" class="table table-striped table-bordered" style="width:100%">
                       <thead class="custom-table-head">
                          <tr>
                             <th>ID</th>

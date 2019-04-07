@@ -1,13 +1,13 @@
 
 .custom-nav {
-    background-color: #5DBCD2;
+    background-color: #53a292;
 }
 
 .custom-table-head {
-    background-color: #cbebf2;
+    background-color: #cde5e0;
 }
 
-.card-content {
+.card-body .card-content {
     padding: 50px;
 }
 
