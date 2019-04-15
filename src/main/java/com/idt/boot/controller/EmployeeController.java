@@ -23,6 +23,12 @@ public class EmployeeController {
         model.addAttribute("name", name);
         return "employee/list";
     }
+
+    @GetMapping("/profile")
+    public String getProfile(Model model, @RequestParam(value="name", required=false) String name) {
+        model.addAttribute("name", name);
+        return "employee/profile";
+    }
 //    @Autowired
 //    private EmployeeRepository employeeRepository;
 //

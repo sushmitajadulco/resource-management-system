@@ -4,66 +4,66 @@ CREATE SCHEMA rmsdb;
 
 DROP TABLE IF EXISTS rmsdb.projects;
 
-CREATE TABLE rmsdb.allocations (
+CREATE TABLE rmsdb.allocation (
     percentage VARCHAR(50) NOT NULL
     PRIMARY KEY (percentage)
 );
 
-INSERT INTO rmsdb.allocations ( percentage ) VALUES ('0.1'), ('0.25'), ('0.5'), ('0.75');
+INSERT INTO rmsdb.allocation ( percentage ) VALUES ('0.1'), ('0.25'), ('0.5'), ('0.75');
 
-DROP TABLE IF EXISTS rmsdb.projects;
+DROP TABLE IF EXISTS rmsdb.project;
 
-CREATE TABLE rmsdb.projects (
+CREATE TABLE rmsdb.project (
     id BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL,
-	startDate Date,
-	endDate Date,
-	allocation VARCHAR(50) NOT NULL,
-    PRIMARY KEY (id),
-	FOREIGN KEY (allocation) REFERENCES allocations(percentage)
+	start_date Date,
+	end_date Date,
+	/*allocation VARCHAR(50) NOT NULL,*/
+    PRIMARY KEY (id)
+	/*FOREIGN KEY (allocation) REFERENCES allocations(percentage)*/
 );
 
-INSERT INTO rmsdb.projects ( name, description) VALUES ('Artemis', 'volunteer application');
-INSERT INTO rmsdb.projects ( name, description) VALUES ('Attache', 'attache project desciption');
-INSERT INTO rmsdb.projects ( name, description) VALUES ('Opentides', 'opentides project description');
-INSERT INTO rmsdb.projects ( name, description) VALUES ('Racks', 'racks project description');
-INSERT INTO rmsdb.projects ( name, description) VALUES ('DOJ', 'DOJ project description');
+INSERT INTO rmsdb.project ( name, description, start_date, end_date) VALUES ('Artemis', 'volunteer application', '01/11/2019', '10/11/2019');
+INSERT INTO rmsdb.project ( name, description, start_date, end_date) VALUES ('Attache', 'attache project desciption', '01/11/2019', '10/11/2019');
+INSERT INTO rmsdb.project ( name, description, start_date, end_date) VALUES ('Opentides', 'opentides project description', '01/11/2019', '10/11/2019');
+INSERT INTO rmsdb.project ( name, description, start_date, end_date) VALUES ('Racks', 'racks project description', '01/11/2019', '10/11/2019');
+INSERT INTO rmsdb.project ( name, description, start_date, end_date) VALUES ('DOJ', 'DOJ project description', '01/11/2019', '10/11/2019');
 
 
-DROP TABLE IF EXISTS rmsdb.levels;
+DROP TABLE IF EXISTS rmsdb.level;
 
-CREATE TABLE rmsdb.levels (
+CREATE TABLE rmsdb.level (
     id BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 );
 
-INSERT INTO rmsdb.levels ( name, description) VALUES ('Senior', 'senior status is given to experienced employers');
-INSERT INTO rmsdb.levels ( name, description) VALUES ('Junior', 'new employees who have completed their training.');
-INSERT INTO rmsdb.levels ( name, description) VALUES ('Mid', 'mid level employees are more experienced than junior employees');
-INSERT INTO rmsdb.levels ( name, description) VALUES ('Trainee', 'employees in training');
+INSERT INTO rmsdb.level ( name, description) VALUES ('Senior', 'senior status is given to experienced employers');
+INSERT INTO rmsdb.level ( name, description) VALUES ('Junior', 'new employees who have completed their training.');
+INSERT INTO rmsdb.level ( name, description) VALUES ('Mid', 'mid level employees are more experienced than junior employees');
+INSERT INTO rmsdb.level ( name, description) VALUES ('Trainee', 'employees in training');
 
 DROP TABLE IF EXISTS rmsdb.designation;
 
-CREATE TABLE rmsdb.designations (
+CREATE TABLE rmsdb.designation (
     id BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 );
 
-INSERT INTO rmsdb.designations ( name, description) VALUES ('QA Tester', 'quality assuarance tester');
-INSERT INTO rmsdb.designations ( name, description) VALUES ('Java Developer', 'full stack java developers');
-INSERT INTO rmsdb.designations ( name, description) VALUES ('iOS Developer', 'iOs developers');	
-INSERT INTO rmsdb.designations ( name, description) VALUES ('Project Manager', 'speaks to clients of each project');
-INSERT INTO rmsdb.designations ( name, description) VALUES ('UI/UX Designer', 'designs the UI and UX of applications');
+INSERT INTO rmsdb.designation ( name, description) VALUES ('QA Tester', 'quality assuarance tester');
+INSERT INTO rmsdb.designation ( name, description) VALUES ('Java Developer', 'full stack java developers');
+INSERT INTO rmsdb.designation ( name, description) VALUES ('iOS Developer', 'iOs developers');
+INSERT INTO rmsdb.designation ( name, description) VALUES ('Project Manager', 'speaks to clients of each project');
+INSERT INTO rmsdb.designation ( name, description) VALUES ('UI/UX Designer', 'designs the UI and UX of applications');
 
 
-DROP TABLE IF EXISTS rmsdb.employees;
+DROP TABLE IF EXISTS rmsdb.employee;
 
-CREATE TABLE rmsdb.employees (
+CREATE TABLE rmsdb.employee (
     id BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     designationID BIGINT NOT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE rmsdb.employees (
 
 DROP USER IF EXISTS 'rms-user'@'%';
 
-CREATE USER 'rms-user'@'%' IDENTIFIED BY 'p4ssw0rd';
+CREATE USER 'rms-user'@'%' IDENTIFIED BY 'password';
 
 GRANT ALL PRIVILEGES ON rmsdb.* TO 'rms-user'@'%';
 

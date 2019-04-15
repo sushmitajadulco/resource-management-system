@@ -2,12 +2,13 @@ package com.idt.boot.entity;
 
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
-@Table(name = "projects")
+
 @Entity
+@Table(name = "project")
 public class Project {
 
     @Id
@@ -15,21 +16,56 @@ public class Project {
     private Long id;
 
     @Column(name = "name", nullable = false)
-    private String percentage;
+    private String name;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "startDate")
+    @Column(name = "start_date")
+    @Temporal(value=TemporalType.DATE)
     private Date startDate;
 
-    @Column(name = "endDate")
+    @Column(name = "end_date")
+    @Temporal(value=TemporalType.DATE)
     private Date endDate;
 
-    @Column(name = "allocation")
-    private String allocation;
-//
-//    @OneToMany
-//    private List<Allocation> allocations = new ArrayList<>();
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 }

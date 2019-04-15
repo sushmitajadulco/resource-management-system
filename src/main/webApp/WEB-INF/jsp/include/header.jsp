@@ -16,28 +16,31 @@
      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
 
 
-        <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
 </head>
 <header>
-   <nav class="navbar navbar-expand-md navbar-light custom-nav navbar-dark">
+<div class="topheader">
+   <nav class="navbar navbar-expand-md custom-nav navbar-dark">
      <a class="navbar-brand" href="#">Monstarlab</a>
      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
        <span class="navbar-toggler-icon"></span>
      </button>
 
      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-       <ul class="navbar-nav mr-auto">
+       <ul class="navbar-nav">
          <li class="nav-item active">
-           <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+           <a class="nav-link" href="/home"><i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
          </li>
          <li class="nav-item">
-           <a class="nav-link" href="/project/list">Project</a>
+           <a class="nav-link" href="/project/list"><i class="far fa-clipboard"></i> Project</a>
          </li>
           <li class="nav-item">
-            <a class="nav-link" href="/employee/list">Employee</a>
+            <a class="nav-link" href="/employee/list"><i class="fas fa-users"></i> Employee</a>
           </li>
        </ul>
      </div>
    </nav>
+   </div>
 </header>
+

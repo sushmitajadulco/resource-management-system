@@ -3,6 +3,7 @@ package com.idt.boot.entity;
 import javax.persistence.*;
 
 @Entity
+@Table(name="allocation")
 public class Allocation {
 
     @Id
@@ -10,13 +11,21 @@ public class Allocation {
     private Long id;
 
     @Column(name = "name", nullable = false)
-    private String percentage;
+    private String name;
 
-    public String getPercentage() {
-        return percentage;
+    public Long getId() {
+        return id;
     }
 
-    public void setPercentage(String percentage) {
-        this.percentage = percentage;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

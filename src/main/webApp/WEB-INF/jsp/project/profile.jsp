@@ -2,7 +2,7 @@
 
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
- <%@page contentType="text/html" import="java.util.*" %>
+
 
 <html lang="en">
     <jsp:include page="../include/header.jsp"/>
@@ -34,15 +34,15 @@
                          </tr>
                       </thead>
                       <tbody>
-                        <c:forEach  items="${projects}" var ="project">
+                        <c:forEach  items="${project}" var ="project" items="${project}">
                             <tr>
                               <th scope="row">${project.id}</th>
                               <td>${project.name}</td>
                               <td>${project.description}</td>
-                              <td>${person.start_date}</td>
-                              <td>${person.end_date}</td>
+                              <td>${project.start_date}</td>
+                              <td>${project.end_date}</td>
                               <td>
-                                 <button type="button" class="btn btn-primary btn-sm" onclick="location.href='/project/profile/${project.id}'"><i class="fas fa-envelope-open-text"></i></button>
+                                 <a href="/project/profile"><button type="button" class="btn btn-primary btn-sm"><i class="fas fa-envelope-open-text"></i></button></a>
                                  <button type="button" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt" style="color: white"></i></button>
                                  <button type="button" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>
                                </td>
@@ -67,17 +67,17 @@
                  </button>
                </div>
                <div class="modal-body">
-                   <form:form method="post" action="/project" modelAttribute="project" class="project-validation" novalidate>
+                   <form:form method="POST" action="/project" modelAttribute="project" class="project-validation" novalidate>
                      <div class="form-group">
                        <label>Name</label>
-                       <form:input path="name" type="input" class="form-control" placeholder="Awesome Project" required/>
+                       <form:input path="name" type="input" class="form-control" placeholder="Awesome Project" required>
                        <div class="invalid-feedback">
                          Please enter a name.
                         </div>
                      </div>
                      <div class="form-group">
                        <label>Description</label>
-                       <form:input path="description" type="input" class="form-control" placeholder="Some description"/>
+                       <form:input path="description" type="input" class="form-control" placeholder="Some description">
                         <div class="valid-feedback">
                           Looks good.
                         </div>
@@ -100,7 +100,7 @@
                </div>
                <div class="modal-footer">
                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                 <button type="submit" class="btn btn-primary" data-dismiss="modal" >Save</button>
+                 <button type="submit" class="btn btn-primary" >Save</button>
                </div>
 
              </div>

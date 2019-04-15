@@ -11,6 +11,10 @@
     padding: 50px;
 }
 
-.card-list {
+.card-list, .project-profile {
     margin-top: 50px;
+}
+
+.profile-info {
+    margin: 30px;
 }

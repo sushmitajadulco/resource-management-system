@@ -4,6 +4,7 @@ import com.idt.boot.dto.ProjectDto;
 import com.idt.boot.entity.Project;
 import com.idt.boot.exception.ResourceNotFoundException;
 import com.idt.boot.repository.ProjectRepository;
+import com.idt.boot.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,11 +20,19 @@ import javax.transaction.Transactional;
 @RequestMapping("/project")
 public class ProjectController {
 
+    @Autowired
+    private ProjectService projectService;
 
     @GetMapping("/list")
-    public String home(Model model, @RequestParam(value="name", required=false) String name) {
-        model.addAttribute("name", name);
+    public String findAll(final Model model)  {
+        model.addAttribute("projects", this.projectService.findAll());
         return "project/list";
+    }
+
+    @GetMapping("/profile")
+    public String getProfile(Model model, @RequestParam(value="name", required=false) String name) {
+        model.addAttribute("name", name);
+        return "project/profile";
     }
 
 //    @Autowired
@@ -40,16 +49,22 @@ public class ProjectController {
 //                .orElseThrow(ResourceNotFoundException::new);
 //    }
 //
-//    @PostMapping
-//    public Project create(@RequestBody final ProjectDto projectDto) {
-//        Project project = new Project();
-//
-//        project.setName(projectDto.getName());
-//        project.setDescription(projectDto.getDescription());
-//        project.setMembers(projectDto.getMembers());
-//
-//        return this.projectRepository.save(project);
-//    }
+    @GetMapping("/profile/{id}")
+    public String profile(@PathVariable final Long id, final Model model) {
+        this.projectService.findById(id).ifPresent(
+                project -> model.addAttribute("project", project)
+        );
+        return "project/profile";
+    }
+
+    @PostMapping
+    public String save(@ModelAttribute("project") final Project project, final Model model) {
+        this.projectService.save(project);
+
+        model.addAttribute("project", project);
+
+        return "project/profile";
+    }
 //
 //    @PutMapping("/{id}")
 //    public Project update(@PathVariable Long id, @RequestBody final ProjectDto projectDto) throws ResourceNotFoundException {
