@@ -6,10 +6,15 @@ import com.idt.boot.exception.ResourceNotFoundException;
 import com.idt.boot.repository.ProjectRepository;
 import com.idt.boot.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -23,32 +28,26 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        // Date - MM/dd/yyyy
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+    }
+
     @GetMapping("/list")
     public String findAll(final Model model)  {
         model.addAttribute("projects", this.projectService.findAll());
         return "project/list";
     }
 
-    @GetMapping("/profile")
-    public String getProfile(Model model, @RequestParam(value="name", required=false) String name) {
-        model.addAttribute("name", name);
-        return "project/profile";
-    }
+//    @GetMapping("/profile")
+////    public String getProfile(Model model, @RequestParam(value="name", required=false) String name) {
+////        model.addAttribute("name", name);
+////        return "project/profile";
+////    }
 
-//    @Autowired
-//    private ProjectRepository projectRepository;
-//
-//    @GetMapping
-//    public List<Project> findAll() {
-//        return this.projectRepository.findAll();
-//    }
-//
-//    @GetMapping("/{id}")
-//    public Project findById(@PathVariable final Long id) throws ResourceNotFoundException {
-//        return this.projectRepository.findById(id)
-//                .orElseThrow(ResourceNotFoundException::new);
-//    }
-//
     @GetMapping("/profile/{id}")
     public String profile(@PathVariable final Long id, final Model model) {
         this.projectService.findById(id).ifPresent(
@@ -57,7 +56,7 @@ public class ProjectController {
         return "project/profile";
     }
 
-    @PostMapping
+    @PostMapping("/add-project")
     public String save(@ModelAttribute("project") final Project project, final Model model) {
         this.projectService.save(project);
 
@@ -65,10 +64,17 @@ public class ProjectController {
 
         return "project/profile";
     }
+
+    @PostMapping("/delete/{id}")
+    public RedirectView delete(@PathVariable final Long id) {
+        this.projectService.delete(id);
+
+        return new RedirectView("/project/list");
+    }
 //
 //    @PutMapping("/{id}")
 //    public Project update(@PathVariable Long id, @RequestBody final ProjectDto projectDto) throws ResourceNotFoundException {
-//        Project project = this.projectRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+//        Project project = this.proje  ctRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
 //
 //        project.setName(projectDto.getName());
 //        project.setDescription(projectDto.getDescription());

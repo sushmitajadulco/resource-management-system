@@ -2,7 +2,8 @@
 
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
- <%@page contentType="text/html" import="java.util.*" %>
+<%@page contentType="text/html" import="java.util.*" %>
+
 
 <html lang="en">
     <jsp:include page="../include/header.jsp"/>
@@ -34,17 +35,17 @@
                          </tr>
                       </thead>
                       <tbody>
-                        <c:forEach  items="${projects}" var ="project">
+                        <c:forEach items="${projects}" var ="project">
                             <tr>
                               <th scope="row">${project.id}</th>
                               <td>${project.name}</td>
                               <td>${project.description}</td>
-                              <td>${person.start_date}</td>
-                              <td>${person.end_date}</td>
+                              <td>${project.startDate}</td>
+                              <td>${project.endDate}</td>
                               <td>
                                  <button type="button" class="btn btn-primary btn-sm" onclick="location.href='/project/profile/${project.id}'"><i class="fas fa-envelope-open-text"></i></button>
                                  <button type="button" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt" style="color: white"></i></button>
-                                 <button type="button" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>
+                                 <button type="button" class="btn btn-danger btn-sm" onclick="post('/project/delete/${project.id}')"><i class="far fa-trash-alt"></i></button>
                                </td>
                             </tr>
                          </c:forEach>
@@ -67,34 +68,36 @@
                  </button>
                </div>
                <div class="modal-body">
-                   <form:form method="post" action="/project" modelAttribute="project" class="project-validation" novalidate>
+                  <form:form method="post" action="/project/add-project" modelAttribute="project" class="project-validation" novalidate>
+                     <form:hidden path="id" />
                      <div class="form-group">
-                       <label>Name</label>
+                       <form:label>Name</form:label>
                        <form:input path="name" type="input" class="form-control" placeholder="Awesome Project" required/>
                        <div class="invalid-feedback">
                          Please enter a name.
                         </div>
                      </div>
-                     <div class="form-group">
-                       <label>Description</label>
+                    <div class="form-group">
+                       <form:label>Description</form:label>
                        <form:input path="description" type="input" class="form-control" placeholder="Some description"/>
                         <div class="valid-feedback">
-                          Looks good.
-                        </div>
+                                                  Looks good.
+                                               </div>
                      </div>
                     <div class="form-group">
-                       <label>Start Date</label>
+                       <form:label>Start Date</form:label>
                        <form:input path="startDate" id="startDate" width="276" />
-                       <div class="valid-feedback">
-                          Looks grat
-                        </div>
+
+                         <div class="valid-feedback">
+                                                  Looks good.
+                                               </div>
                      </div>
                      <div class="form-group">
-                       <label>End Date</label>
+                       <form:label>End Date</form:label>
                        <form:input path="endDate" id="endDate" width="276" />
-                       <div class="valid-feedback">
-                          Looks good.
-                       </div>
+                        <div class="valid-feedback">
+                              Looks good.
+                        </div>
                      </div>
                   </form:form>
                </div>
