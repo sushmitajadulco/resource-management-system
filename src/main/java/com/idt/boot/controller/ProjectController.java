@@ -42,12 +42,6 @@ public class ProjectController {
         return "project/list";
     }
 
-//    @GetMapping("/profile")
-////    public String getProfile(Model model, @RequestParam(value="name", required=false) String name) {
-////        model.addAttribute("name", name);
-////        return "project/profile";
-////    }
-
     @GetMapping("/profile/{id}")
     public String profile(@PathVariable final Long id, final Model model) {
         this.projectService.findById(id).ifPresent(
@@ -56,16 +50,22 @@ public class ProjectController {
         return "project/profile";
     }
 
-    @PostMapping("/add-project")
+    @GetMapping
+    public String showForm(final Model model) {
+        model.addAttribute("project", new Project());
+        return "project/list";
+    }
+
+    @PostMapping("/add")
     public String save(@ModelAttribute("project") final Project project, final Model model) {
         this.projectService.save(project);
 
-        model.addAttribute("project", project);
+        model.addAttribute("projects", this.projectService.findAll());
 
-        return "project/profile";
+        return "project/list";
     }
 
-    @PostMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public RedirectView delete(@PathVariable final Long id) {
         this.projectService.delete(id);
 

@@ -27,7 +27,6 @@ $(document).ready(function() {
 
 
 
-
 //Clone the hidden element and shows it
 $('.add-one').click(function(){
   $('.dynamic-element').first().clone().appendTo('.dynamic-add-project').show();
@@ -89,6 +88,7 @@ function attach_delete(){
         });
       }, false);
 })();
+
 
 
 

@@ -29,48 +29,4 @@ public class EmployeeController {
         model.addAttribute("name", name);
         return "employee/profile";
     }
-//    @Autowired
-//    private EmployeeRepository employeeRepository;
-//
-//    @GetMapping
-//    public List<Employee> findAll() {
-//        return this.employeeRepository.findAll();
-//    }
-//
-//    @GetMapping("/{id}")
-//    public Employee findById(@PathVariable final Long id) throws ResourceNotFoundException {
-//        return this.employeeRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
-//    }
-
-//    @PostMapping
-//    public Employee create(@RequestBody final EmployeeDto employeeDto) {
-//        Employee employee = new Employee();
-//
-//        employee.setEmployeeNo(employeeDto.getEmployeeNo());
-//        employee.setName(employeeDto.getName());
-//        employee.setJobTitle(employeeDto.getJobTitle());
-//
-//        return this.employeeRepository.save(employee);
-//    }
-//
-//    @PutMapping("/{id}")
-//    public Employee update(@PathVariable Long id, @RequestBody final EmployeeDto employeeDto) throws ResourceNotFoundException {
-//        Employee employee = this.employeeRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
-//
-//        employee.setEmployeeNo(employeeDto.getEmployeeNo());
-//        employee.setName(employeeDto.getName());
-//        employee.setJobTitle(employeeDto.getJobTitle());
-//
-//        return this.employeeRepository.save(employee);
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public void deleteById(@PathVariable final Long id) {
-//        this.employeeRepository.deleteById(id);
-//    }
-
-//    @GetMapping("/employeeNo/{employeeNo}")
-//    private Employee findyByEmployeeNo(@PathVariable final String employeeNo) throws ResourceNotFoundException {
-//        return this.employeeRepository.findByEmployeeNo(employeeNo).orElseThrow(ResourceNotFoundException::new);
-//    }
 }
