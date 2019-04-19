@@ -3,10 +3,43 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" import="java.util.*" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
 
 <html lang="en">
     <jsp:include page="../include/header.jsp"/>
+
+     <script>
+            function post(path, params, method) {
+            	method = method || "post";
+
+            	var form = document.createElement("form");
+            	form.setAttribute("method", method);
+            	form.setAttribute("action", path);
+
+            	for ( var key in params) {
+            		if (params.hasOwnProperty(key)) {
+            			var hiddenField = document.createElement("input");
+            			hiddenField.setAttribute("type", "hidden");
+            			hiddenField.setAttribute("name", key);
+            			hiddenField.setAttribute("value", params[key]);
+
+            			form.appendChild(hiddenField);
+            		}
+            	}
+
+            	document.body.appendChild(form);
+            	form.submit();
+            }
+
+            $('#addProjectModal').submit(function(e){
+                e.preventDefault();
+                $.post("project/add", sentData, function(receivedData){
+                    useTheResponseData(receivedData);
+                });
+            });
+
+
+     </script>
 
     <body>
         <main role="main">
@@ -17,7 +50,7 @@
                     <h4>List of Projects</h4>
                 </div>
                 <div class="float-right">
-                   <button class="btn btn-primary float-right" data-toggle="modal" data-target="#addProjectModal" onclick="/project')" >Add Project</button>
+                   <button type="button" class="btn btn-primary float-right" onclick="location.href='/project/form'">Add Project</button>
                 </div>
               </div>
 
@@ -43,9 +76,9 @@
                               <td>${project.startDate}</td>
                               <td>${project.endDate}</td>
                               <td>
-                                 <button type="button" class="btn btn-primary btn-sm" onclick="location.href='/project/profile/${project.id}'"><i class="fas fa-envelope-open-text"></i></button>
-                                 <button type="button" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt" style="color: white"></i></button>
-                                 <button type="button" class="btn btn-danger btn-sm" onclick="post('/project/delete/${project.id}')"><i class="far fa-trash-alt"></i></button>
+                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="View" onclick="location.href='/project/profile/${project.id}/'"><i class="fas fa-envelope-open-text"></i></button>
+                                 <button type="button" class="btn btn-warning btn-sm" onclick="location.href='/project/edit/${project.id}/'"><i class="fas fa-pencil-alt" style="color: white"></i></button>
+                                 <button type="submit" class="btn btn-danger btn-sm" onclick="post('/project/delete/${project.id}/')"><i class="far fa-trash-alt"></i></button>
                                </td>
                             </tr>
                          </c:forEach>
@@ -57,8 +90,6 @@
             </div> <!-- container -->
          </main>
 
-
-        <jsp:include page="form.jsp"/>
         <jsp:include page="../include/script.jsp"/>
      </body>
 </html>

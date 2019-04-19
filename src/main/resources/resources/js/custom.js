@@ -23,6 +23,11 @@ $(document).ready(function() {
   $('.dynamicEndDate').datepicker({
     uiLibrary: 'bootstrap4'
   });
+
+  $('[data-toggle="tooltip"]').tooltip();
+
+
+
 });
 
 
@@ -88,7 +93,6 @@ function attach_delete(){
         });
       }, false);
 })();
-
 
 
 

@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <html lang="en">
     <jsp:include page="../include/header.jsp"/>
@@ -10,47 +8,389 @@
     <body>
         <main role="main">
           <div class="container">
-            <div class="card card-list">
+
+            <div class="card">
               <div class="card-header">
-                <div class="float-left">
-                    <h4>List of Projects</h4>
+               <div class="float-left">
+                    <h4>Project Profile</h4>
                 </div>
                 <div class="float-right">
-                   <button class="btn btn-primary float-right" data-toggle="modal" data-target="#addProjectModal" type="submit">Add Project</button>
+                   <button type="button" class="btn btn-warning btn-sm"><i class="far fa-edit"></i></button>
+                   <button type="button" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>
                 </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col col-md-2"><i class="far fa-edit"></i></div>
+                  <div class="col col-md-2">
+                    <p>Name:</p>
+                    <p>Description:</p>
+                    <p>Start Date:</p>
+                    <p>End Date:</p>
+                  </div>
+                  <div class="col col-md-8">
+                    <p>${project.name}</p>
+                    <p>${project.description}</p>
+                    <p>${project.startDate}</p>
+                    <p>${project.endDate}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card card-list">
+              <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                      <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#CurrentMembers">Project Members</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link " data-toggle="tab" href="#PastMembers">Past Members</a>
+                      </li>
+                    </ul>
               </div>
 
               <div class="card-body card-content">
-                <div class="table-responsive">
-                    <table id="project-table" class="table table-striped table-bordered" style="width:100%">
-                      <thead class="custom-table-head">
-                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Action</th>
-                         </tr>
-                      </thead>
-                      <tbody>
-                        <c:forEach  items="${project}" var ="project" items="${project}">
+                <div class="tab-content">
+
+                  <div class="tab-pane container active" id="CurrentMembers">
+                    <div class="table-responsive">
+                        <table id="project-current-members" class="table table-striped table-bordered" style="width:100%">
+                          <thead class="custom-table-head">
+                             <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Action</th>
+                             </tr>
+                          </thead>
+                          <tbody>
                             <tr>
-                              <th scope="row">${project.id}</th>
-                              <td>${project.name}</td>
-                              <td>${project.description}</td>
-                              <td>${project.start_date}</td>
-                              <td>${project.end_date}</td>
+                              <th scope="row">1</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
                               <td>
-                                 <a href="/project/profile"><button type="button" class="btn btn-primary btn-sm"><i class="fas fa-envelope-open-text"></i></button></a>
-                                 <button type="button" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt" style="color: white"></i></button>
+                                 <a href="/project/profile"><button type="button" class="btn btn-primary btn-sm"><i class="far fa-clipboard"></i></button></a>
+                                 <button type="button" class="btn btn-warning btn-sm"><i class="far fa-edit"></i></button>
                                  <button type="button" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>
                                </td>
                             </tr>
-                         </c:forEach>
-                      </tbody>
-                    </table>
-                   </div> <!-- table reponsive -->
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>Larry</td>
+                              <td>the Bird</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@twitter</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@mdo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>Larry</td>
+                              <td>the Bird</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@twitter</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@mdo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>Larry</td>
+                              <td>the Bird</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@twitter</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@mdo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>Larry</td>
+                              <td>the Bird</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@twitter</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@mdo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>Larry</td>
+                              <td>the Bird</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@twitter</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@mdo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>Larry</td>
+                              <td>the Bird</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@twitter</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div> <!-- table reponsive -->
+                    </div> <!-- tab pane content current projects -->
+
+                  <div class="tab-pane container fade" id="PastMembers">
+                    <div class="table-responsive">
+                        <table id="project-past-members" class="table table-striped table-bordered" style="width:100%">
+                          <thead class="custom-table-head">
+                             <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Action</th>
+                             </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>
+                                 <a href="/project/profile"><button type="button" class="btn btn-primary btn-sm"><i class="far fa-clipboard"></i></button></a>
+                                 <button type="button" class="btn btn-warning btn-sm"><i class="far fa-edit"></i></button>
+                                 <button type="button" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>
+                               </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>Larry</td>
+                              <td>the Bird</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@twitter</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@mdo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>Larry</td>
+                              <td>the Bird</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@twitter</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@mdo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>Larry</td>
+                              <td>the Bird</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@twitter</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@mdo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>Larry</td>
+                              <td>the Bird</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@twitter</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@mdo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>Larry</td>
+                              <td>the Bird</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@twitter</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@mdo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>Larry</td>
+                              <td>the Bird</td>
+                              <td>10/11/19</td>
+                              <td>10/11/19</td>
+                              <td>@twitter</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div> <!-- table reponsive -->
+                    </div> <!-- tab pane content current projects -->
+
+
+
+
+                   </div> <!-- tab content -->
                  </div> <!-- card-body -->
                </div> <!-- card -->
             </div> <!-- container -->
@@ -67,46 +407,65 @@
                  </button>
                </div>
                <div class="modal-body">
-                   <form:form method="POST" action="/project" modelAttribute="project" class="project-validation" novalidate>
+                   <form class="project-validation" novalidate>
                      <div class="form-group">
                        <label>Name</label>
-                       <form:input path="name" type="input" class="form-control" placeholder="Awesome Project" required>
+                       <input type="input" class="form-control" placeholder="Awesome Project" required>
                        <div class="invalid-feedback">
                          Please enter a name.
                         </div>
                      </div>
                      <div class="form-group">
                        <label>Description</label>
-                       <form:input path="description" type="input" class="form-control" placeholder="Some description">
+                       <input type="input" class="form-control" placeholder="Some description">
                         <div class="valid-feedback">
                           Looks good.
                         </div>
                      </div>
                     <div class="form-group">
                        <label>Start Date</label>
-                       <form:input path="startDate" id="startDate" width="276" />
+                       <input id="startDate" width="276" />
                        <div class="valid-feedback">
                           Looks grat
                         </div>
                      </div>
                      <div class="form-group">
                        <label>End Date</label>
-                       <form:input path="endDate" id="endDate" width="276" />
+                       <input id="endDate" width="276" />
                        <div class="valid-feedback">
                           Looks good.
                        </div>
                      </div>
-                  </form:form>
                </div>
                <div class="modal-footer">
                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                 <button type="submit" class="btn btn-primary" >Save</button>
+                 <button type="submit" class="btn btn-primary" >Save changes</button>
                </div>
-
+               </form>
              </div>
            </div>
          </div>
 
         <jsp:include page="../include/script.jsp"/>
+        <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+          'use strict';
+          window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('project-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+              form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+              }, false);
+            });
+          }, false);
+        })();
+        </script>
      </body>
 </html>
