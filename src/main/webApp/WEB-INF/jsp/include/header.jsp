@@ -19,7 +19,7 @@
      <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
 
-
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 
 </head>
 <header>
@@ -36,7 +36,7 @@
            <a class="nav-link" href="/home"><i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
          </li>
          <li class="nav-item">
-           <a class="nav-link" href="/project/list"><i class="far fa-clipboard"></i> Project</a>
+           <a class="nav-link" href="/project/api/list"><i class="far fa-clipboard"></i> Project</a>
          </li>
           <li class="nav-item">
             <a class="nav-link" href="/employee/list"><i class="fas fa-users"></i> Employee</a>

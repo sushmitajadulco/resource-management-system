@@ -1,11 +1,9 @@
 package com.idt.boot.entity;
 
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
-
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "project")
@@ -22,12 +20,14 @@ public class Project {
     private String description;
 
     @Column(name = "start_date")
-    @Temporal(value=TemporalType.DATE)
-    private Date startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date")
-    @Temporal(value=TemporalType.DATE)
-    private Date endDate;
+    private LocalDate endDate;
+
+    @Column(name = "is_active")
+    @Type(type = "yes_no")
+    private Boolean isActive = true;
 
     public Long getId() {
         return id;
@@ -53,19 +53,27 @@ public class Project {
         this.name = name;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }

@@ -1,8 +1,9 @@
 package com.idt.boot.dto;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
+import com.idt.boot.entity.Project;
+import org.springframework.beans.BeanUtils;
+
+import java.time.LocalDate;
 
 public class ProjectDto {
 
@@ -10,9 +11,13 @@ public class ProjectDto {
 
     private String description;
     
-	private Date startDate;
+	private LocalDate startDate;
 
-	private Date endDate;
+	private LocalDate endDate;
+
+	public ProjectDto() {
+
+	}
 
 	public String getName() {
 		return name;
@@ -30,20 +35,34 @@ public class ProjectDto {
 		this.description = description;
 	}
 
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
+	}
+
+	public Project toModel() {
+		Project project = new Project();
+		project.setName(name);
+		project.setDescription(description);
+		project.setStartDate(startDate);
+		project.setEndDate(endDate);
+		return project;
+	}
+
+	public Project mergeChanges(Project project) {
+		BeanUtils.copyProperties(this, project);
+		return project;
 	}
 }
 

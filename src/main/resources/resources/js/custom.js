@@ -1,6 +1,7 @@
 
 
 
+
 $(document).ready(function() {
 
 
@@ -23,72 +24,14 @@ $(document).ready(function() {
 
   $('#project-current-members').DataTable();
 
-
-  function post(path, params, method) {
-              	method = method || "post";
-
-              	var form = document.createElement("form");
-              	form.setAttribute("method", method);
-              	form.setAttribute("action", path);
-
-              	for ( var key in params) {
-              		if (params.hasOwnProperty(key)) {
-              			var hiddenField = document.createElement("input");
-              			hiddenField.setAttribute("type", "hidden");
-              			hiddenField.setAttribute("name", key);
-              			hiddenField.setAttribute("value", params[key]);
-
-              			form.appendChild(hiddenField);
-              		}
-              	}
-
-              	document.body.appendChild(form);
-              	form.submit();
-
-              }
-
-
-            var table = $('#projectsTable').DataTable({
-               			"sAjaxSource": "/api/project/list",
-               			"sAjaxDataProp": "",
-               			"order": [[ 0, "asc" ]],
-               			"aoColumns": [
-               			    { "mData": "id"},
-               		         { "mData": "name" },
-               				  { "mData": "description" },
-               				  { "mData": "startDate" },
-               				  { "mData": "endDate" },
-               				  {"defaultContent": "<button id='view' type='button' class='btn btn-primary btn-sm'><i class='fas fa-envelope-open-text'></i></button>" +
-               				                     "<button id='edit' type='button' class='btn btn-warning btn-sm'><i class='fas fa-pencil-alt' style='color: white'></i></button>" +
-               				                     "<button id='delete' type='button' class='btn btn-danger btn-sm'><i class='far fa-trash-alt'></i></button>"
-               				  }
-               			]
-               	 });
-
-
-               	 $('#projectsTable tbody').on( 'click', 'button#view', function () {
-               	         var data = table.row( $(this).parents('tr') ).data();
-               	         location.href="/project" + data.id
-                  } );
-
-                 $('#projectsTable tbody').on( 'click', 'button#edit', function () {
-
-                         var data = table.row( $(this).parents('tr') ).data();
-                         location.href="/project/edit/ " + data.id
-                   } );
-
-                 $('#projectsTable tbody').on( 'click', 'button#delete', function () {
-
-                       var data = table.row( $(this).parents('tr') ).data();
-                       post('/api/project/delete/' + data.id);
-                  } );
-
-
   $('#startDate').datepicker({
-   uiLibrary: 'bootstrap4'
+   uiLibrary: 'bootstrap4',
+   format: 'yyyy-mm-dd'
   });
+
   $('#endDate').datepicker({
-   uiLibrary: 'bootstrap4'
+   uiLibrary: 'bootstrap4',
+   format: 'yyyy-mm-dd'
   });
 
   $('.dynamicStartDate').datepicker({
@@ -98,13 +41,7 @@ $(document).ready(function() {
     uiLibrary: 'bootstrap4'
   });
 
-  $('[data-toggle="tooltip"]').tooltip();
-
-
-
 });
-
-
 
 //Clone the hidden element and shows it
 $('.add-one').click(function(){
@@ -121,14 +58,15 @@ $('body').on('focus',".endDate", function(){
   });
 });
 
-//Attach functionality to delete buttons
-function attach_delete(){
-  $('.delete').off();
-  $('.delete').click(function(){
-    console.log("click");
-    $(this).closest('.form-group').remove();
-  });
-}
+//
+////Attach functionality to delete buttons
+//function attach_delete(){
+//  $('.delete').off();
+//  $('.delete').click(function(){
+//    console.log("click");
+//    $(this).closest('.form-group').remove();
+//  });
+//}
 
 
 (function() {
