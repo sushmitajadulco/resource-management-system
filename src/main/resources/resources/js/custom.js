@@ -2,13 +2,87 @@
 
 
 $(document).ready(function() {
+
+
+//                 $.ajax({
+//                	        url: "/api/project/list",
+//                	        type: "GET",
+//                	        success: function (data) {
+//                                for(var i=0;i < data.length; i++) {
+//                                    console.log(data[i].id);
+//                                    console.log(data[i].name);
+//                                }
+//                                $('#project-table').append(data);
+//                	        }, error: function (jqXHR, textStatus, errorThrown) {
+//                	        }
+//                		});
+
   $('#employee-table').DataTable();
 
   $('#project-past-members').DataTable();
 
   $('#project-current-members').DataTable();
 
-  $('#project-table').DataTable();
+
+  function post(path, params, method) {
+              	method = method || "post";
+
+              	var form = document.createElement("form");
+              	form.setAttribute("method", method);
+              	form.setAttribute("action", path);
+
+              	for ( var key in params) {
+              		if (params.hasOwnProperty(key)) {
+              			var hiddenField = document.createElement("input");
+              			hiddenField.setAttribute("type", "hidden");
+              			hiddenField.setAttribute("name", key);
+              			hiddenField.setAttribute("value", params[key]);
+
+              			form.appendChild(hiddenField);
+              		}
+              	}
+
+              	document.body.appendChild(form);
+              	form.submit();
+
+              }
+
+
+            var table = $('#projectsTable').DataTable({
+               			"sAjaxSource": "/api/project/list",
+               			"sAjaxDataProp": "",
+               			"order": [[ 0, "asc" ]],
+               			"aoColumns": [
+               			    { "mData": "id"},
+               		         { "mData": "name" },
+               				  { "mData": "description" },
+               				  { "mData": "startDate" },
+               				  { "mData": "endDate" },
+               				  {"defaultContent": "<button id='view' type='button' class='btn btn-primary btn-sm'><i class='fas fa-envelope-open-text'></i></button>" +
+               				                     "<button id='edit' type='button' class='btn btn-warning btn-sm'><i class='fas fa-pencil-alt' style='color: white'></i></button>" +
+               				                     "<button id='delete' type='button' class='btn btn-danger btn-sm'><i class='far fa-trash-alt'></i></button>"
+               				  }
+               			]
+               	 });
+
+
+               	 $('#projectsTable tbody').on( 'click', 'button#view', function () {
+               	         var data = table.row( $(this).parents('tr') ).data();
+               	         location.href="/project" + data.id
+                  } );
+
+                 $('#projectsTable tbody').on( 'click', 'button#edit', function () {
+
+                         var data = table.row( $(this).parents('tr') ).data();
+                         location.href="/project/edit/ " + data.id
+                   } );
+
+                 $('#projectsTable tbody').on( 'click', 'button#delete', function () {
+
+                       var data = table.row( $(this).parents('tr') ).data();
+                       post('/api/project/delete/' + data.id);
+                  } );
+
 
   $('#startDate').datepicker({
    uiLibrary: 'bootstrap4'
