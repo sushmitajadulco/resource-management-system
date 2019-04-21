@@ -36,7 +36,7 @@
            <a class="nav-link" href="/home"><i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
          </li>
          <li class="nav-item">
-           <a class="nav-link" href="/project/api/list"><i class="far fa-clipboard"></i> Project</a>
+           <a class="nav-link" href="/project/list"><i class="far fa-clipboard"></i> Project</a>
          </li>
           <li class="nav-item">
             <a class="nav-link" href="/employee/list"><i class="fas fa-users"></i> Employee</a>

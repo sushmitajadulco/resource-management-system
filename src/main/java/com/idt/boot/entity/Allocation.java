@@ -1,6 +1,9 @@
 package com.idt.boot.entity;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name="allocation")
@@ -10,8 +13,30 @@ public class Allocation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "start_date", nullable = false)
+    private LocalDate startDate;
+
+    @Column(name = "end_date", nullable = false)
+    private LocalDate endDate;
+
+    @Column(name = "status")
+    @Type(type = "yes_no")
+    private Boolean status;
+
+    @Column(name = "percentage", nullable = false)
+    private Integer percentage;
+
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
+
+    public Allocation() {
+
+    }
 
     public Long getId() {
         return id;
@@ -21,11 +46,51 @@ public class Allocation {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public Integer getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(Integer percentage) {
+        this.percentage = percentage;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

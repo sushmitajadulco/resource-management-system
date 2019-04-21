@@ -1,6 +1,9 @@
 package com.idt.boot.entity;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Table
 @Entity(name = "employee")
@@ -10,17 +13,32 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
 
-    @Column(name = "designationID", nullable = false)
-    private Long designationID;
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
 
-    @Column(name = "levelID", nullable = false)
-    private Long levelID;
+    @Column(name = "middle_name")
+    private String middleName;
 
-    @Column(name = "projectID", nullable = false)
-    private Long projectID;
+    @Column(name = "email")
+    private String email;
+
+    @ManyToOne
+    @JoinColumn(name = "designation_id")
+    private Designation designation;
+
+    @ManyToOne
+    @JoinColumn(name = "level_id")
+    private Level level;
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    private List<Allocation> allocationList;
+
+    @Column(name = "is_employed")
+    @Type(type = "yes_no")
+    private Boolean isEmployed = true;
 
     public Long getId() {
         return id;
@@ -30,35 +48,67 @@ public class Employee {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public Long getDesignationID() {
-        return designationID;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setDesignationID(Long designationID) {
-        this.designationID = designationID;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public Long getLevelID() {
-        return levelID;
+    public String getMiddleName() {
+        return middleName;
     }
 
-    public void setLevelID(Long levelID) {
-        this.levelID = levelID;
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
-    public Long getProjectID() {
-        return projectID;
+    public String getEmail() {
+        return email;
     }
 
-    public void setProjectID(Long projectID) {
-        this.projectID = projectID;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Designation getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(Designation designation) {
+        this.designation = designation;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
+    public List<Allocation> getAllocationList() {
+        return allocationList;
+    }
+
+    public void setAllocationList(List<Allocation> allocationList) {
+        this.allocationList = allocationList;
+    }
+
+    public Boolean getEmployed() {
+        return isEmployed;
+    }
+
+    public void setEmployed(Boolean employed) {
+        isEmployed = employed;
     }
 }

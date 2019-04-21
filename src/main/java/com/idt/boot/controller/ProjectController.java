@@ -10,33 +10,33 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequestMapping("/project")
 public class ProjectController {
 
-    @GetMapping("/api/list")
+    @GetMapping("/list")
     public String getList() {
-        return "api/list";
+        return "project/list";
     }
 
-    @PostMapping("/api/delete/{id}")
+    @PostMapping("/delete/{id}")
     public RedirectView remove(@PathVariable final Long id) {
-        return new RedirectView("/project/api/list");
+        return new RedirectView("/project/list");
     }
 
-    @PostMapping("/api/add")
+    @PostMapping("/add")
     public RedirectView saveProject(@ModelAttribute("project") final Project project) {
         return new RedirectView("/project/add");
     }
 
-    @GetMapping("/api/profile/{id}")
+    @GetMapping("/profile/{id}")
     public String getProfile(@PathVariable final Long id, final Model model) {
-        return "api/profile";
+        return "project/profile";
     }
 
-    @GetMapping("/api/form")
+    @GetMapping("/form")
     public String getForm(final Model model) {
-        return "api/form";
+        return "project/form";
     }
 
-    @GetMapping("/api/edit/{id}")
+    @GetMapping("/edit/{id}")
     public String editProject(@PathVariable final Long id, final Model model) {
-        return "api/form";
+        return "project/form";
     }
 }

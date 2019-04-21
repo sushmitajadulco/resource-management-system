@@ -1,14 +1,13 @@
 package com.idt.boot.repository;
 
-import com.idt.boot.entity.Employee;
+import com.idt.boot.entity.Allocation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<Employee, Long>{
+public interface AllocationRepository extends JpaRepository<Allocation, Long> {
 
-    List<Employee> findAllByIsEmployedOrderByIdDesc(Boolean isEmployed);
+    List<Allocation> findByProjectId(Long id);
 }
-

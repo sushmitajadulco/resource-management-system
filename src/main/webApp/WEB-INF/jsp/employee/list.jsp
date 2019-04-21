@@ -1,6 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
+    <!DOCTYPE html>
+
+    <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@page contentType="text/html" import="java.util.*" %>
+
+    <html lang="en">
     <jsp:include page="../include/header.jsp"/>
+    <script>
+
+        $(document).ready(function() {
+            var modalId = localStorage.getItem('modalId');
+            if (modalId != null) {
+                $(modalId).modal('show');
+                setTimeout(function() { $(modalId).modal('hide'); }, 2000);
+                localStorage.removeItem('modalId');
+            }
+
+            var table = $('#employeesTable').DataTable({
+                "sAjaxSource": "/api/employee/list",
+                "sAjaxDataProp": "",
+                "order": [[ 0, "desc" ]],
+                "aoColumns": [
+                { "mData": "id"},
+                { "mData": "firstName" },
+                { "mData": "lastName" },
+                { "mData": "designation.name" },
+                { "mData": "level.name" },
+                { "mData": "employed" },
+                {"defaultContent": "<button id='view' type='button' class='btn btn-primary btn-sm'><i class='fas fa-envelope-open-text'></i></button>" +
+                "<button id='edit' type='button' class='btn btn-warning btn-sm'><i class='fas fa-pencil-alt' style='color: white'></i></button>" +
+                "<button id='delete' type='button' class='btn btn-danger btn-sm'><i class='far fa-trash-alt'></i></button>"
+                }
+                ]
+            });
+
+
+            $('#employeesTable tbody').on( 'click', 'button#view', function () {
+               var data = table.row( $(this).parents('tr') ).data();
+               location.href="/employee/profile/" + data.id;
+            });
+
+            $('#employeesTable tbody').on( 'click', 'button#edit', function () {
+               var data = table.row( $(this).parents('tr') ).data();
+               location.href="/employee/edit/" + data.id;
+            });
+
+            $('#employeesTable tbody').on( 'click', 'button#delete', function () {
+             var data = table.row( $(this).parents('tr') ).data();
+             deleteEmployee('/api/employee/delete/' + data.id);
+            });
+       });
+
+        function deleteEmployee(endPoint) {
+            $.ajax({
+               url: endPoint,
+               type: "post",
+               success: function (data) {
+                    location.href="/employee/list";
+               }, error: function (jqXHR, textStatus, errorThrown) {},
+               complete: function() {
+                    $("#success-alert").show().delay(2000).fadeIn(500, 0).slideUp(500, function(){
+                        $("#success-alert").fadeOut(500);
+                    });
+               }
+            });
+        }
+    </script>
+
 
     <body>
         <main role="main">
@@ -11,204 +77,75 @@
                     <h4>List of Employees</h4>
                 </div>
                 <div class="float-right">
-                   <button class="btn btn-primary float-right" data-toggle="modal" data-target="#addEmployeeModal" type="submit">Add Employee</button>
-                </div>
-              </div>
+                 <button type="button" class="btn btn-primary float-right" onclick="location.href='/employee/form'">Add Employee</button>
+             </div>
+         </div>
 
-              <div class="card-body card-content">
-                <div class="table-responsive">
-                    <table id="employee-table" class="table table-striped table-bordered" style="width:100%">
-                      <thead class="custom-table-head">
-                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Designation</th>
-                            <th>Level</th>
-                            <th>Action</th>
-                         </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row">1</th>
-                          <td>Sushmita</td>
-                          <td>Java Developer</td>
-                          <td>1</td>
-                          <td>
-                          <button type="button" class="btn btn-primary btn-sm"><i class="fas fa-user"></i></button>
-                          <button type="button" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt" style="color: white"></i></button>
-                          <button type="button" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">2</th>
-                          <td>Bea</td>
-                          <td>Java Developer</td>
-                          <td>1</td>
-                          <td>
-                          <button type="button" class="btn btn-primary btn-sm"><i class="fas fa-user"></i></button>
-                          <button type="button" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt" style="color: white"></i></button>
-                          <button type="button" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">3</th>
-                          <td>Perf</td>
-                          <td>Java Developer</td>
-                          <td>1</td>
-                          <td>
-                          <button type="button" class="btn btn-primary btn-sm"><i class="fas fa-user"></i></button>
-                          <button type="button" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt" style="color: white"></i></button>
-                          <button type="button" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">4</th>
-                          <td>Alfred</td>
-                          <td>Java Developer</td>
-                          <td>1</td>
-                          <td>
-                          <button type="button" class="btn btn-primary btn-sm"><i class="fas fa-user"></i></button>
-                          <button type="button" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt" style="color: white"></i></button>
-                          <button type="button" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>
-                          </td>
-                        </tr>
-                        <tr>
-                           <th scope="row">5</th>
-                           <td>Christian</td>
-                           <td>Java Developer</td>
-                           <td>1</td>
-                           <td>
-                           <button type="button" class="btn btn-primary btn-sm"><i class="fas fa-user"></i></button>
-                           <button type="button" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt" style="color: white"></i></button>
-                           <button type="button" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>
-                           </td>
-                         </tr>
-                         <tr>
-                           <th scope="row">6</th>
-                           <td>Mark Otto</td>
-                           <td>Java Developer</td>
-                           <td>1</td>
-                           <td>
-                           <button type="button" class="btn btn-primary btn-sm"><i class="fas fa-user"></i></button>
-                           <button type="button" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt" style="color: white"></i></button>
-                           <button type="button" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>
-                           </td>
-                         </tr>
-                         <tr>
-                           <th scope="row">7</th>
-                           <td>Mark Otto</td>
-                           <td>Java Developer</td>
-                           <td>1</td>
-                           <td>
-                           <button type="button" class="btn btn-primary btn-sm"><i class="fas fa-user"></i></button>
-                           <button type="button" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt" style="color: white"></i></button>
-                           <button type="button" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>
-                           </td>
-                         </tr>
-                      </tbody>
-                    </table>
-                   </div> <!-- table reponsive -->
-                 </div> <!-- card-body -->
-               </div> <!-- card -->
-            </div> <!-- container -->
-         </main
+         <div class="card-body card-content">
+            <div class="alert alert-success" id="success-alert" style="display: none">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>Success!</strong> Employee has been deleted.
+            </div>
+            <div class="table-responsive">
+                <table id="employeesTable" class="table table-striped table-bordered">
+                    <thead>
+                     <tr>
+                         <th>Id</th>
+                         <th>First Name</th>
+                         <th>Last Name</th>
+                         <th>Designation</th>
+                         <th>Level</th>
+                         <th>isEmployed</th>
+                         <th>Actions</th>
+                     </tr>
+                 </thead>
+                 <tbody></tbody>
+             </table>
+         </div> <!-- table reponsive -->
+     </div> <!-- card-body -->
+ </div> <!-- card -->
+</div> <!-- container -->
+</main>
 
-          <!-- Modal -->
-         <div class="modal fade" id="addEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-           <div class="modal-dialog modal-lg" role="document">
-             <div class="modal-content">
-               <div class="modal-header">
-                 <h5 class="modal-title" id="exampleModalLabel">Add Employee</h5>
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                   <span aria-hidden="true">&times;</span>
-                 </button>
-               </div>
-               <div class="modal-body">
-                   <form class="employee-validation" novalidate>
-                     <div class="form-group">
-                       <label>Name</label>
-                       <input type="input" class="form-control" placeholder="Full Name" required>
-                       <div class="invalid-feedback">
-                         Please enter a name.
-                        </div>
-                     </div>
-                     <div class="form-group">
-                       <label>Designation</label>
-                       <input type="input" class="form-control" placeholder="Java Developer">
-                        <div class="valid-feedback">
-                          Looks good.
-                        </div>
-                     </div>
-                     <div class="form-group">
-                       <label>Level</label>
-                       <input type="input" class="form-control" placeholder="1">
-                        <div class="valid-feedback">
-                          Looks good.
-                        </div>
-                     </div>
+<!-- Modal -->
+<div class="modal fade" id="successModal" role="dialog">
+      <div class="modal-dialog">
 
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Success</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div>
+                <p class="modal-body">Project Successfully Saved!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-                     <label>Project(s):</label>
-                     <div class="dynamic-add-project">
-                          <!-- Dynamic element will be cloned here -->
-                          <!-- You can call clone function once if you want it to show it a first element-->
-                      </div>
-                      <div>
-                        <button type="button" class="btn btn-primary btn-sm add-one">+ add Project</button>
-                      </div>
+<div class="modal fade" id="errorModal" role="dialog">
+   <div class="modal-dialog">
 
-                    </form>
+     <!-- Modal content-->
+     <div class="modal-content">
+       <div class="modal-header">
+         <h4 class="modal-title">Error</h4>
+         <button type="button" class="close" data-dismiss="modal">&times;</button>
+     </div>
+     <div>
+         <p class="modal-body">Oops. Error Saving Project</p>
+     </div>
+     <div class="modal-footer">
+         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+     </div>
+ </div>
+</div>
+</div>
 
-
-                    <!-- Hidden element to clone -->
-                     <div class="form-group dynamic-element" style="display:none">
-                        <div class="row">
-                          <div class="col-md-4 ">
-                            <select class="form-control">
-                              <option>Artemis</option>
-                              <option>Rax</option>
-                              <option>Opentides</option>
-                              <option>Attache</option>
-                              <option>Gamify</option>
-                            </select>
-                          </div>
-
-                          <div class="col-md-3 ">
-                             <input class="dynamicStartDate" width="160" name="startDate" placeholder="Start Date"/>
-                             <div class="valid-feedback">
-                                Looks great
-                              </div>
-                           </div>
-
-                           <!-- <div class="col-md-3">
-                             <input class="dynamicEndDate" width="160" name="endDate" placeholder="End Date"/>
-                             <div class="valid-feedback">
-                                Looks good.
-                             </div>
-                           </div> -->
-
-                          <div class="col-md-3">
-                            <input type="text" data-date-format="mm/dd/yyyy" class="form-control endDate" placeholder="End Date">
-                            <div class="input-group-appemd">
-                              <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                            </div>
-                          </div>
-
-                           <div class="col-md-1">
-                            <button type="button" class="btn btn-danger btn-sm delete"><i class="far fa-trash-alt"></i></button>
-                          </div>
-                        </div> <!--row-->
-                      </div> <!-- dynamic-element -->
-                    </div> <!-- modal body -->
-                <div class="modal-footer">
-                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                   <button type="submit" class="btn btn-primary" >Save changes</button>
-                </div>
-             </div> <!--modal-content-->
-           </div> <!--modal-dialog -->
-         </div> <!--modal -->
-
-
-        <jsp:include page="../include/script.jsp"/>
-     </body>
+<jsp:include page="../include/script.jsp"/>
+</body>
 </html>

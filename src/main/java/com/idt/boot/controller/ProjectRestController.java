@@ -23,15 +23,20 @@ public class ProjectRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getProjectProfile(@PathVariable final Long id) throws ResourceNotFoundException {
-        Project project = this.projectRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+    public ResponseEntity<?> getProjectProfile(@PathVariable final Long id) {
+        Project project = this.projectRepository.findById(id).orElseThrow(() ->
+            new ResourceNotFoundException(Project.class, id)
+        );
 
         return new ResponseEntity<>(project, HttpStatus.OK) ;
     }
 
     @PostMapping("delete/{id}")
     public ResponseEntity<?> delete(@PathVariable final Long id) throws ResourceNotFoundException {
-        Project project = this.projectRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+        Project project = this.projectRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException(Project.class, id)
+        );
+
         project.setActive(false);
         projectRepository.save(project);
         return new ResponseEntity<>("Project deleted successfully.",HttpStatus.OK);
@@ -43,8 +48,10 @@ public class ProjectRestController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<?> updateProject(@PathVariable Long id, @RequestBody final ProjectDto projectDto ) throws ResourceNotFoundException {
-        Project project = this.projectRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+    public ResponseEntity<?> updateProject(@PathVariable final Long id, @RequestBody final ProjectDto projectDto) {
+        Project project = this.projectRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException(Project.class, id)
+        );
 
         return new ResponseEntity<>(this.projectRepository.save(projectDto.mergeChanges(project)), HttpStatus.OK);
     }

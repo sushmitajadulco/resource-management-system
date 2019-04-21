@@ -4,6 +4,23 @@
 
 <html lang="en">
     <jsp:include page="../include/header.jsp"/>
+    <script>
+        $(document).ready(function() {
+            var url = window.location.toString();
+            var id = url.substring(url.lastIndexOf('/') + 1);
+            $.ajax({
+               url: "/api/project/" + id ,
+               type: "get",
+               success: function (project) {
+                  $('.project-name').append(project.name);
+                  $('.project-description').append(project.description);
+                  $('.project-start-date').append(project.startDate);
+                  $('.project-end-date').append(project.endDate);
+               }, error: function (jqXHR, textStatus, errorThrown) {},
+              });
+        });
+    </script>
+
 
     <body>
         <main role="main">
@@ -29,10 +46,10 @@
                     <p>End Date:</p>
                   </div>
                   <div class="col col-md-8">
-                    <p>${project.name}</p>
-                    <p>${project.description}</p>
-                    <p>${project.startDate}</p>
-                    <p>${project.endDate}</p>
+                    <p class="project-name"></p>
+                    <p class="project-description"></p>
+                    <p class="project-start-date"></p>
+                    <p class="project-end-date"></p>
                   </div>
                 </div>
               </div>
@@ -134,10 +151,10 @@
                               <td>10/11/19</td>
                               <td>10/11/19</td>
                               <td>@fat</td>
-                            </tr>
-                            <tr>
                               <th scope="row">3</th>
                               <td>Larry</td>
+                            </tr>
+                            <tr>
                               <td>the Bird</td>
                               <td>10/11/19</td>
                               <td>10/11/19</td>
@@ -386,10 +403,6 @@
                         </table>
                       </div> <!-- table reponsive -->
                     </div> <!-- tab pane content current projects -->
-
-
-
-
                    </div> <!-- tab content -->
                  </div> <!-- card-body -->
                </div> <!-- card -->

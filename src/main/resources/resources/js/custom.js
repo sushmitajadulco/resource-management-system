@@ -4,22 +4,6 @@
 
 $(document).ready(function() {
 
-
-//                 $.ajax({
-//                	        url: "/api/project/list",
-//                	        type: "GET",
-//                	        success: function (data) {
-//                                for(var i=0;i < data.length; i++) {
-//                                    console.log(data[i].id);
-//                                    console.log(data[i].name);
-//                                }
-//                                $('#project-table').append(data);
-//                	        }, error: function (jqXHR, textStatus, errorThrown) {
-//                	        }
-//                		});
-
-  $('#employee-table').DataTable();
-
   $('#project-past-members').DataTable();
 
   $('#project-current-members').DataTable();
@@ -57,16 +41,6 @@ $('body').on('focus',".endDate", function(){
       showTodayButton: true
   });
 });
-
-//
-////Attach functionality to delete buttons
-//function attach_delete(){
-//  $('.delete').off();
-//  $('.delete').click(function(){
-//    console.log("click");
-//    $(this).closest('.form-group').remove();
-//  });
-//}
 
 
 (function() {

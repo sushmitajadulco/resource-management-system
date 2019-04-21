@@ -2,6 +2,23 @@
 <html lang="en">
     <jsp:include page="../include/header.jsp"/>
 
+    <script>
+            $(document).ready(function() {
+                var url = window.location.toString();
+                var id = url.substring(url.lastIndexOf('/') + 1);
+                $.ajax({
+                   url: "/api/employee/" + id ,
+                   type: "get",
+                   success: function (employee) {
+                      $('.employee-name').append(employee.name);
+                      $('.employee-designation').append(employee.designationID);
+                      $('.employee-level').append(employee.levelID);
+                   }, error: function (jqXHR, textStatus, errorThrown) {},
+                  });
+            });
+     </script>
+
+
     <body>
         <main role="main">
           <div class="container">
@@ -25,9 +42,9 @@
                     <p>Level:</p>
                   </div>
                   <div class="col col-md-8">
-                    <p>Sushmita Jadulco</p>
-                    <p>Java Developer</p>
-                    <p>Trainee</p>
+                    <p class="employee-name"></p>
+                    <p class="employee-designation"></p>
+                    <p class="employee-level"></p>
                   </div>
                 </div>
               </div>

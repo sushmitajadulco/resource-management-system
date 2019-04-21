@@ -5,6 +5,81 @@
 
 <html lang="en">
     <jsp:include page="../include/header.jsp"/>
+    <script>
+        var isEdit = false;
+        var id;
+
+        $(document).ready(function() {
+             var url = window.location.toString();
+             id = url.substring(url.lastIndexOf('/') + 1);
+             console.log("ID: " + id);
+             if(isNaN(id)) {
+                $('.title').append("Add Project");
+             } else {
+                $('.title').append("Edit Project");
+                getProject();
+                isEdit = true;
+             }
+        });
+
+        function getProject() {
+            var url = window.location.toString();
+                        var id = url.substring(url.lastIndexOf('/') + 1);
+                        $.ajax({
+                           url: "/api/project/" + id ,
+                           type: "get",
+                           success: function (project) {
+                              console.log("project: " + project);
+                              $('#name').val(project.name);
+                              $('#description').val(project.description);
+                              $('#startDate').val(project.startDate);
+                              $('#endDate').val(project.endDate);
+                           }, error: function (jqXHR, textStatus, errorThrown) {},
+             });
+
+        }
+
+       function save() {
+            console.log("isEdit: " + isEdit);
+       		var modelObj = {
+       				name: $("#name").val(),
+       				description: $("#description").val(),
+       				startDate: $("#startDate").val(),
+       				endDate: $("#endDate").val()
+       		};
+
+       		console.log("post data:"+modelObj.name);
+             var method, endPoint;
+             if( isEdit == true) {
+                method = "PUT";
+                console.log("id in save(): ", id);
+                endPoint = "/api/project/edit/" + id;
+             } else {
+                method = "POST";
+                endPoint = "/api/project/add";
+             }
+       		 $.ajax({
+       	            type: method,
+       	            url: endPoint,
+       	            headers: {
+       	                "Content-Type": "application/json"
+       	            },
+       	            data: JSON.stringify(modelObj),
+       	            success: function (data) {
+       	            	console.log("POST API RESPONSE::"+ data);
+                        localStorage.setItem("modalId", "#successModal");
+       	            },
+       	            error: function (jqXHR, textStatus, errorThrown) {
+       	                localStorage.setItem("modalId", "#errorModal");
+       	            },
+       	            complete: function() {
+       	                location.href="/project/list";
+       	            }
+
+       	        });
+       	}
+
+    </script>
 
     <body>
         <main role="main">
@@ -12,14 +87,7 @@
             <div class="card card-list">
                 <div class="card-header">
                     <div class="float-left">
-                        <c:choose>
-                            <c:when test="${isAdd}">
-                                <h4>Add Project</h4>
-                            </c:when>
-                            <c:otherwise>
-                                <h4>Edit Project</h4>
-                            </c:otherwise>
-                        </c:choose>
+                       <h4 class="title"></h4>
                     </div>
                     <div class="float-right">
                        <button type="button" class="btn btn-primary float-right" onclick="location.href='/project/list/'">Back</button>
@@ -27,39 +95,38 @@
                 </div>
 
                 <div class="card-body card-content">
-                    <form:form id="project-form" method="post" action="/project/add" modelAttribute="project" class="project-validation" novalidate="true">
-                     <form:hidden path="id"/>
+                    <form id="projectForm" class="project-validation"  novalidate="true">
+
                      <div class="form-group">
-                       <form:label path="name">Name</form:label>
-                       <form:input path="name" type="input" class="form-control" placeholder="Project name" required="true"/>
+                       <label>Name</label>
+                       <input id="name" type="input" class="form-control" placeholder="Project name" required="true"/>
                        <div class="invalid-feedback">
                          Please enter a name.
                        </div>
                      </div>
                     <div class="form-group">
-                       <form:label path="description">Description</form:label>
-                       <form:input path="description" type="input" class="form-control" placeholder="Some description"/>
+                       <label>Description</label>
+                       <input id="description" type="input" class="form-control" placeholder="Some description"/>
                         <div class="valid-feedback">
                            Looks good.
                         </div>
                      </div>
                     <div class="form-group">
-                       <form:label path="startDate">Start Date</form:label>
-                       <form:input path="startDate" id="startDate" width="276" />
+                       <label>Start Date</label>
+                       <input id="startDate" id="startDate" width="276" />
                        <div class="valid-feedback">
                           Looks good.
                        </div>
                      </div>
                      <div class="form-group">
-                       <form:label path="endDate">End Date</form:label>
-                       <form:input path="endDate" id="endDate" width="276" />
+                       <label>End Date</label>
+                       <input id="endDate" id="endDate" width="276" />
                         <div class="valid-feedback">
                              Looks good.
                         </div>
                      </div>
-                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary" data-dismiss="modal" >Save</button>
-                  </form:form>
+                     <button type="button" class="btn btn-primary" onclick="save()" >Save</button>
+                  </form>
                </div>
                <div class="card-footer">
 
@@ -75,4 +142,3 @@
 </html>
 
 
-    
