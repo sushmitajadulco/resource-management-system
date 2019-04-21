@@ -2,14 +2,6 @@ DROP SCHEMA IF EXISTS rmsdb;
 
 CREATE SCHEMA rmsdb;
 
-DROP TABLE IF EXISTS rmsdb.allocationPercentage;
-
-CREATE TABLE rmsdb.allocationPercentage (
-    percentage VARCHAR(50) NOT NULL
-    PRIMARY KEY (percentage)
-);
-
-INSERT INTO rmsdb.allocationPercentage ( percentage ) VALUES ('0.1'), ('0.25'), ('0.5'), ('0.75');
 
 DROP TABLE IF EXISTS rmsdb.project;
 
@@ -19,7 +11,6 @@ CREATE TABLE rmsdb.project (
     description VARCHAR(255) NOT NULL,
 	start_date Date,
 	end_date Date,
-	is_active char(1),
     PRIMARY KEY (id)
 );
 
@@ -65,26 +56,14 @@ DROP TABLE IF EXISTS rmsdb.employee;
 CREATE TABLE rmsdb.employee (
     id BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
-    designation_id BIGINT NOT NULL,
-	level_id BIGINT NOT NULL,
-	is_employed char(1),
+    designationID BIGINT NOT NULL,
+	levelID BIGINT NOT NULL,
+	projectID BIGINT NOT NULL,
     PRIMARY KEY (id),
-	FOREIGN KEY (level_id) references level(id),
-	FOREIGN KEY (designation_id) references designation(id)
+	FOREIGN KEY (projectID) references employees(id),
+	FOREIGN KEY (levelID) references levels(id),
+	FOREIGN KEY (designationID) references designations(id)
 );
-
-DROP TABLE IF EXISTS rmsdb.allocation;
-
-CREATE TABLE rmsdb.allocation (
-    employee_id BIGINT NOT NULL,
-    project_id BIGINT NOT NULL,
-    start_date Date,
-    end_date Date,
-    in_project char(1),
-    percentage VARCHAR(50) NOT NULL
-    PRIMARY KEY (percentage)
-);
-
 
 DROP USER IF EXISTS 'rms-user'@'%';
 

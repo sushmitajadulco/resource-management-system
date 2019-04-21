@@ -40,7 +40,6 @@
         }
 
        function save() {
-            console.log("isEdit: " + isEdit);
 
        		var modelObj = {
        				firstName:  $('#firstName').val(),
@@ -154,10 +153,6 @@
                      <button type="button" class="btn btn-primary float-right" onclick="save()">Save</button>
                   </form>
                </div>
-               <div class="card-footer">
-
-               </div>
-
                 </div> <!-- card-body -->
                </div> <!-- card -->
             </div> <!-- container -->

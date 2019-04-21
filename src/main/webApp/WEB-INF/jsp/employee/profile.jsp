@@ -3,15 +3,19 @@
     <jsp:include page="../include/header.jsp"/>
 
     <script>
+            var employeeProfileId=0;
+
             $(document).ready(function() {
                 getAllocationFormData();
 
                 var url = window.location.toString();
                 var id = url.substring(url.lastIndexOf('/') + 1);
+                employeeProfileId = id;
                 $.ajax({
                    url: "/api/employee/" + id ,
                    type: "get",
                    success: function (employee) {
+
                       $('.employee-name').append(employee.firstName).append(" ").append(employee.lastName);
                       $('.employee-designation').append(employee.designation.name);
                       $('.employee-level').append(employee.level.name);
@@ -29,7 +33,13 @@
                 allocation.prop('selectedIndex', 0);
 
                 const project_url = '/api/project/list';
-                //const allocation_url = '/api/allocationPercentage/list';
+                const allocation_percentage = [
+                    {"name":"ZERO", "value": 0.0},
+                    {"name":"TWENTY_FIVE", "value": 0.25},
+                    {"name":"FIFTY", "value": 0.5},
+                    {"name":"SEVENTY_FIVE", "value": 0.75},
+                    {"name":"ONE", "value": 1.0}
+                ];
 
                 // Populate dropdowns with list of designations and levels
                 $.getJSON(project_url, function (data) {
@@ -37,12 +47,56 @@
                         project.append($('<option></option>').attr('value', entry.id).text(entry.name));
                     })
                 });
-                /*$.getJSON(allocation_url, function (data) {
-                     $.each(data, function (key, entry) {
-                         allocation.append($('<option></option>').attr('value', entry.id).text(entry.percentage));
-                     })
-                 }); */
-          }
+
+                $.each(allocation_percentage, function (key, entry) {
+                    allocation.append($('<option></option>').attr('value', entry.name).text(entry.value));
+                });
+
+            }
+
+            var isEdit = false;
+             function save() {
+
+                   		var modelObj = {
+                   				employeeId:  employeeProfileId,
+                   				projectId: $('#project').val(),
+                   				startDate: $("#startDate").val(),
+                   				endDate: $("#endDate").val(),
+                   				percentage: $("#allocation").val()
+                   		};
+
+                        console.log("modelObj: ", modelObj);
+                        console.log("isEdit", isEdit);
+                         var method, endPoint;
+                         if( isEdit == true) {
+                            method = "PUT";
+                            endPoint = "/api/employee/edit/" + employeeProfileId;
+                            console.log("edited");
+                         } else {
+                            method = "POST";
+                            endPoint = "/api/employee/addAllocation";
+                         }
+                   		 $.ajax({
+                   	            type: method,
+                   	            url: endPoint,
+                   	            headers: {
+                   	                "Content-Type": "application/json"
+                   	            },
+                   	            data: JSON.stringify(modelObj),
+                   	            success: function (data) {
+                                    localStorage.setItem("modalId", "#successModal");
+                   	            },
+                   	            error: function (jqXHR, textStatus, errorThrown) {
+                   	                localStorage.setItem("modalId", "#errorModal");
+                   	            },
+                   	            complete: function() {
+                   	                //location.href="/employee/profile/" + employeeProfileId;
+                   	            }
+
+                   	        });
+                   	}
+
+
      </script>
 
 
@@ -77,6 +131,8 @@
               </div>
             </div>
 
+
+            <!-- Current and Past members tables in tabs -->
             <div class="card card-list">
               <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs">
@@ -91,11 +147,10 @@
 
               <div class="card-body card-content">
                 <div class="tab-content">
-
                   <div class="tab-pane container active" id="CurrentMembers">
                     <div class="table-responsive">
                         <div class="float-right">
-                            <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#allocationModal">Add Project</button>
+                            <button type="button" class="btn btn-primary float-right button-margin" data-toggle="modal" data-target="#allocationModal">Add Project</button>
                          </div>
                         <table id="project-current-members" class="table table-striped table-bordered" style="width:100%">
                           <thead class="custom-table-head">

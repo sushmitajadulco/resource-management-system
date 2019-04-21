@@ -1,5 +1,6 @@
 package com.idt.boot.controller;
 
+import com.idt.boot.dto.AllocationDto;
 import com.idt.boot.dto.EmployeeDto;
 import com.idt.boot.entity.Employee;
 import com.idt.boot.service.EmployeeService;
@@ -43,4 +44,10 @@ public class EmployeeRestController {
 
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @PostMapping("/addAllocation")
+    public ResponseEntity<Employee> addProjectAllocationToEmployee(@RequestBody final AllocationDto allocationDto) {
+        return new ResponseEntity<>(employeeService.addAllocation(allocationDto), HttpStatus.OK);
+    }
+
 }
