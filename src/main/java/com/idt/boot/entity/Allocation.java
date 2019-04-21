@@ -1,5 +1,6 @@
 package com.idt.boot.entity;
 
+import com.idt.boot.common.AllocationPercentage;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -23,8 +24,9 @@ public class Allocation {
     @Type(type = "yes_no")
     private Boolean status;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "percentage", nullable = false)
-    private Integer percentage;
+    private AllocationPercentage percentage;
 
     @ManyToOne
     @JoinColumn(name = "project_id")
@@ -70,11 +72,11 @@ public class Allocation {
         this.status = status;
     }
 
-    public Integer getPercentage() {
+    public AllocationPercentage getPercentage() {
         return percentage;
     }
 
-    public void setPercentage(Integer percentage) {
+    public void setPercentage(AllocationPercentage percentage) {
         this.percentage = percentage;
     }
 

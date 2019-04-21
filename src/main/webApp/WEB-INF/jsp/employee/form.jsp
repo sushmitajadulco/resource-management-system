@@ -105,6 +105,7 @@
              });
         }
 
+
     </script>
 
     <body>
@@ -139,7 +140,7 @@
                     <div class="form-group">
                        <label>Designation</label>
                        <select class="form-control" id="designation"></select>
-                        <div class="valid-feedback">
+                        <div class="invalid-feedback">
                            Looks good.
                         </div>
                      </div>

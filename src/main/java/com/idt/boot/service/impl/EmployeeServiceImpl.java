@@ -1,18 +1,20 @@
 package com.idt.boot.service.impl;
 
+import com.idt.boot.dto.AllocationDto;
 import com.idt.boot.dto.EmployeeDto;
-import com.idt.boot.entity.Designation;
-import com.idt.boot.entity.Employee;
-import com.idt.boot.entity.Level;
+import com.idt.boot.entity.*;
 import com.idt.boot.exception.ResourceNotFoundException;
 import com.idt.boot.repository.DesignationRepository;
 import com.idt.boot.repository.EmployeeRepository;
 import com.idt.boot.repository.LevelRepository;
+import com.idt.boot.repository.ProjectRepository;
+import com.idt.boot.service.AllocationService;
 import com.idt.boot.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,10 +24,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository employeeRepository;
 
     @Autowired
+    private ProjectRepository projectRepository;
+
+    @Autowired
     private DesignationRepository designationRepository;
 
     @Autowired
     private LevelRepository levelRepository;
+
+    @Autowired
+    private AllocationService allocationService;
 
     public EmployeeServiceImpl() {
     }
@@ -44,7 +52,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeDto.toModel();
         employee.setDesignation(designation);
         employee.setLevel(level);
-        //TODO allocation computation
 
         return employeeRepository.save(employee);
     }
@@ -59,7 +66,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee = employeeDto.mergeChanges(employee);
         employee.setDesignation(designation);
         employee.setLevel(level);
-        //TODO allocation computation
 
         return employeeRepository.save(employee);
     }
@@ -73,14 +79,44 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.save(employee);
     }
 
-    //TODO allocation computation logic
-    private void computeAllocation() {
+    @Override
+    public Employee addAllocation(AllocationDto allocationDto) {
+        Employee employee = getEmployee(allocationDto.getEmployeeId());
+        Project project = getProject(allocationDto.getProjectId());
 
+        Allocation allocation = allocationService.createAllocation(employee, project, allocationDto);
+        if (allocation != null) {
+            if(employee.getAllocationList() == null) {
+                employee.setAllocationList(new ArrayList<>());
+            }
+            employee.getAllocationList().add(allocation);
+        }
+
+        return employeeRepository.save(employee);
+    }
+
+    @Override
+    public Employee updateAllocation(AllocationDto allocationDto, Long id) {
+        Employee employee = getEmployee(allocationDto.getEmployeeId());
+
+        if (employee.getAllocationList() == null) {
+            employee.setAllocationList(new ArrayList<>());
+        }
+        employee.getAllocationList().clear();
+        employee.getAllocationList().addAll(allocationService.updateAllocation(allocationDto, id));
+
+        return employeeRepository.save(employee);
     }
 
     public Employee getEmployee(Long id) {
         return employeeRepository.findById(id).orElseThrow(() ->
             new ResourceNotFoundException(Employee.class, id)
+        );
+    }
+
+    private Project getProject(Long id) {
+        return projectRepository.findById(id).orElseThrow(() ->
+            new ResourceNotFoundException(Project.class, id)
         );
     }
 

@@ -4,18 +4,45 @@
 
     <script>
             $(document).ready(function() {
+                getAllocationFormData();
+
                 var url = window.location.toString();
                 var id = url.substring(url.lastIndexOf('/') + 1);
                 $.ajax({
                    url: "/api/employee/" + id ,
                    type: "get",
                    success: function (employee) {
-                      $('.employee-name').append(employee.name);
-                      $('.employee-designation').append(employee.designationID);
-                      $('.employee-level').append(employee.levelID);
+                      $('.employee-name').append(employee.firstName).append(" ").append(employee.lastName);
+                      $('.employee-designation').append(employee.designation.name);
+                      $('.employee-level').append(employee.level.name);
                    }, error: function (jqXHR, textStatus, errorThrown) {},
                   });
             });
+
+            function getAllocationFormData() {
+                let project = $('#project');
+                let allocation = $('#allocation');
+
+                project.empty();
+                allocation.empty();
+                project.prop('selectedIndex', 0);
+                allocation.prop('selectedIndex', 0);
+
+                const project_url = '/api/project/list';
+                //const allocation_url = '/api/allocationPercentage/list';
+
+                // Populate dropdowns with list of designations and levels
+                $.getJSON(project_url, function (data) {
+                    $.each(data, function (key, entry) {
+                        project.append($('<option></option>').attr('value', entry.id).text(entry.name));
+                    })
+                });
+                /*$.getJSON(allocation_url, function (data) {
+                     $.each(data, function (key, entry) {
+                         allocation.append($('<option></option>').attr('value', entry.id).text(entry.percentage));
+                     })
+                 }); */
+          }
      </script>
 
 
@@ -67,6 +94,9 @@
 
                   <div class="tab-pane container active" id="CurrentMembers">
                     <div class="table-responsive">
+                        <div class="float-right">
+                            <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#allocationModal">Add Project</button>
+                         </div>
                         <table id="project-current-members" class="table table-striped table-bordered" style="width:100%">
                           <thead class="custom-table-head">
                              <tr>
@@ -87,142 +117,7 @@
                               <td>10/11/19</td>
                               <td></td>
                             </tr>
-                            <tr>
-                              <th scope="row">2</th>
-                              <td>Jacob</td>
-                              <td>Thornton</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Larry</td>
-                              <td>the Bird</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@twitter</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@mdo</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">2</th>
-                              <td>Jacob</td>
-                              <td>Thornton</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Larry</td>
-                              <td>the Bird</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@twitter</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@mdo</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">2</th>
-                              <td>Jacob</td>
-                              <td>Thornton</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Larry</td>
-                              <td>the Bird</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@twitter</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@mdo</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">2</th>
-                              <td>Jacob</td>
-                              <td>Thornton</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Larry</td>
-                              <td>the Bird</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@twitter</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@mdo</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">2</th>
-                              <td>Jacob</td>
-                              <td>Thornton</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Larry</td>
-                              <td>the Bird</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@twitter</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@mdo</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">2</th>
-                              <td>Jacob</td>
-                              <td>Thornton</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Larry</td>
-                              <td>the Bird</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@twitter</td>
-                            </tr>
+
                           </tbody>
                         </table>
                       </div> <!-- table reponsive -->
@@ -404,56 +299,8 @@
             </div> <!-- container -->
          </main>
 
-         <!-- Modal -->
-         <div class="modal fade" id="addProjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-           <div class="modal-dialog" role="document">
-             <div class="modal-content">
-               <div class="modal-header">
-                 <h5 class="modal-title" id="exampleModalLabel">Add Project</h5>
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                   <span aria-hidden="true">&times;</span>
-                 </button>
-               </div>
-               <div class="modal-body">
-                   <form class="project-validation" novalidate>
-                     <div class="form-group">
-                       <label>Name</label>
-                       <input type="input" class="form-control" placeholder="Awesome Project" required>
-                       <div class="invalid-feedback">
-                         Please enter a name.
-                        </div>
-                     </div>
-                     <div class="form-group">
-                       <label>Description</label>
-                       <input type="input" class="form-control" placeholder="Some description">
-                        <div class="valid-feedback">
-                          Looks good.
-                        </div>
-                     </div>
-                    <div class="form-group">
-                       <label>Start Date</label>
-                       <input id="startDate" width="276" />
-                       <div class="valid-feedback">
-                          Looks grat
-                        </div>
-                     </div>
-                     <div class="form-group">
-                       <label>End Date</label>
-                       <input id="endDate" width="276" />
-                       <div class="valid-feedback">
-                          Looks good.
-                       </div>
-                     </div>
-               </div>
-               <div class="modal-footer">
-                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                 <button type="submit" class="btn btn-primary" >Save changes</button>
-               </div>
-               </form>
-             </div>
-           </div>
-         </div>
 
+        <jsp:include page="../allocation/form.jsp"/>
         <jsp:include page="../include/script.jsp"/>
         <script>
         // Example starter JavaScript for disabling form submissions if there are invalid fields

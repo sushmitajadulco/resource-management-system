@@ -12,7 +12,6 @@ public class EmployeeDto {
     private String firstName;
     private String lastName;
     private String middleName;
-    private String email;
     private Long designationId;
     private Long levelId;
     private List<Allocation> allocationList = new ArrayList<>();
@@ -44,14 +43,6 @@ public class EmployeeDto {
         this.middleName = middleName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public Long getDesignationId() {
         return designationId;
     }
@@ -81,7 +72,6 @@ public class EmployeeDto {
         employee.setFirstName(firstName);
         employee.setLastName(lastName);
         employee.setMiddleName(middleName);
-        employee.setEmail(email);
         employee.setAllocationList(allocationList);
 
         return employee;

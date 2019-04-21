@@ -26,7 +26,6 @@
                 { "mData": "lastName" },
                 { "mData": "designation.name" },
                 { "mData": "level.name" },
-                { "mData": "employed" },
                 {"defaultContent": "<button id='view' type='button' class='btn btn-primary btn-sm'><i class='fas fa-envelope-open-text'></i></button>" +
                 "<button id='edit' type='button' class='btn btn-warning btn-sm'><i class='fas fa-pencil-alt' style='color: white'></i></button>" +
                 "<button id='delete' type='button' class='btn btn-danger btn-sm'><i class='far fa-trash-alt'></i></button>"
@@ -59,7 +58,7 @@
                     location.href="/employee/list";
                }, error: function (jqXHR, textStatus, errorThrown) {},
                complete: function() {
-                    $("#success-alert").show().delay(2000).fadeIn(500, 0).slideUp(500, function(){
+                    $("#success-alert").delay(3000).show().delay(2000).fadeIn(500, 0).slideUp(500, function(){
                         $("#success-alert").fadeOut(500);
                     });
                }
@@ -95,7 +94,6 @@
                          <th>Last Name</th>
                          <th>Designation</th>
                          <th>Level</th>
-                         <th>isEmployed</th>
                          <th>Actions</th>
                      </tr>
                  </thead>
@@ -118,7 +116,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div>
-                <p class="modal-body">Project Successfully Saved!</p>
+                <p class="modal-body">Employee Successfully Saved!</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -137,7 +135,7 @@
          <button type="button" class="close" data-dismiss="modal">&times;</button>
      </div>
      <div>
-         <p class="modal-body">Oops. Error Saving Project</p>
+         <p class="modal-body">Oops. Error Saving Employee</p>
      </div>
      <div class="modal-footer">
          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

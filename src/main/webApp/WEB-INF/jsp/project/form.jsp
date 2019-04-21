@@ -113,14 +113,14 @@
                      </div>
                     <div class="form-group">
                        <label>Start Date</label>
-                       <input id="startDate" id="startDate" width="276" />
+                       <input id="startDate" id="startDate" width="276" readonly/>
                        <div class="valid-feedback">
                           Looks good.
                        </div>
                      </div>
                      <div class="form-group">
                        <label>End Date</label>
-                       <input id="endDate" id="endDate" width="276" />
+                       <input id="endDate" id="endDate" width="276" readonly/>
                         <div class="valid-feedback">
                              Looks good.
                         </div>

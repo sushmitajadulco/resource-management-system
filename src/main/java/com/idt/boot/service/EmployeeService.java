@@ -1,5 +1,6 @@
 package com.idt.boot.service;
 
+import com.idt.boot.dto.AllocationDto;
 import com.idt.boot.dto.EmployeeDto;
 import com.idt.boot.entity.Employee;
 
@@ -16,4 +17,9 @@ public interface EmployeeService {
     public void terminateEmployee(Long id);
 
     public Employee getEmployee(Long id);
+
+    //Employee Project Allocation methods
+    public Employee addAllocation(AllocationDto allocationDto);
+
+    public Employee updateAllocation(AllocationDto allocationDto, Long id);
 }

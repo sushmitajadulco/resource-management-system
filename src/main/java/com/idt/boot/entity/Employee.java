@@ -72,14 +72,6 @@ public class Employee {
         this.middleName = middleName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public Designation getDesignation() {
         return designation;
     }
@@ -100,15 +92,20 @@ public class Employee {
         return allocationList;
     }
 
-    public void setAllocationList(List<Allocation> allocationList) {
-        this.allocationList = allocationList;
-    }
-
     public Boolean getEmployed() {
         return isEmployed;
     }
 
     public void setEmployed(Boolean employed) {
         isEmployed = employed;
+    }
+
+    public void setAllocationList(List<Allocation> allocationList) {
+        this.allocationList = allocationList;
+    }
+
+    @Override
+    public String toString() {
+        return this.firstName + " " + this.middleName + ", " + this.lastName;
     }
 }
