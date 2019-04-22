@@ -12,15 +12,15 @@
                 var id = url.substring(url.lastIndexOf('/') + 1);
                 employeeProfileId = id;
                 $.ajax({
-                   url: "/api/employee/" + id ,
+                   url: "/api/employee/" + id,
                    type: "get",
                    success: function (employee) {
-
                       $('.employee-name').append(employee.firstName).append(" ").append(employee.lastName);
                       $('.employee-designation').append(employee.designation.name);
                       $('.employee-level').append(employee.level.name);
                    }, error: function (jqXHR, textStatus, errorThrown) {},
                   });
+
             });
 
             function getAllocationFormData() {
@@ -84,10 +84,13 @@
                    	            },
                    	            data: JSON.stringify(modelObj),
                    	            success: function (data) {
+                   	                $('#warning-msg').hide();
+                   	                $('#allocationModal').modal('hide');
                                     localStorage.setItem("modalId", "#successModal");
                    	            },
                    	            error: function (jqXHR, textStatus, errorThrown) {
-                   	                localStorage.setItem("modalId", "#errorModal");
+                   	                //localStorage.setItem("modalId", "#errorModal");
+                   	                $('#warning-msg').show();
                    	            },
                    	            complete: function() {
                    	                //location.href="/employee/profile/" + employeeProfileId;
@@ -96,21 +99,34 @@
                    	        });
                    	}
 
-
-     </script>
-
+                var table = $('#currentProjects').DataTable({
+                    "sAjaxSource": "/api/",
+                    "sAjaxDataProp": "",
+                    "order": [[ 0, "desc" ]],
+                    "aoColumns": [
+                    { "mData": "id"},
+                    { "mData": "firstName" },
+                    { "mData": "lastName" },
+                    { "mData": "designation.name" },
+                    { "mData": "level.name" },
+                    {"defaultContent": "<button id='view' type='button' class='btn btn-primary btn-sm'><i class='fas fa-envelope-open-text'></i></button>" +
+                    "<button id='edit' type='button' class='btn btn-warning btn-sm'><i class='fas fa-pencil-alt' style='color: white'></i></button>" +
+                    "<button id='delete' type='button' class='btn btn-danger btn-sm'><i class='far fa-trash-alt'></i></button>"
+                    }
+                    ]
+                });
+    </script>
 
     <body>
         <main role="main">
           <div class="container">
-
             <div class="card project-profile">
               <div class="card-header">
                <div class="float-left">
                     <h4>Employee Profile</h4>
                 </div>
                 <div class="float-right">
-                   <button type="button" class="btn btn-warning btn-sm"><i class="far fa-edit"></i></button>
+                   <button type='button' class='btn btn-warning btn-sm'><i class='fas fa-pencil-alt' style='color: white'></i></button>
                    <button type="button" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>
                 </div>
               </div>
@@ -152,7 +168,7 @@
                         <div class="float-right">
                             <button type="button" class="btn btn-primary float-right button-margin" data-toggle="modal" data-target="#allocationModal">Add Project</button>
                          </div>
-                        <table id="project-current-members" class="table table-striped table-bordered" style="width:100%">
+                        <table id="currentProjects" class="table table-striped table-bordered" style="width:100%">
                           <thead class="custom-table-head">
                              <tr>
                                 <th>ID</th>
@@ -161,26 +177,17 @@
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Allocation</th>
+                                <th>Actions</th>
                              </tr>
                           </thead>
-                          <tbody>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td></td>
-                            </tr>
-
-                          </tbody>
+                          <tbody></tbody>
                         </table>
                       </div> <!-- table reponsive -->
                     </div> <!-- tab pane content current projects -->
 
                   <div class="tab-pane container fade" id="PastMembers">
                     <div class="table-responsive">
-                        <table id="project-past-members" class="table table-striped table-bordered" style="width:100%">
+                        <table id="currentProjects" class="table table-striped table-bordered" style="width:100%">
                           <thead class="custom-table-head">
                              <tr>
                                 <th>ID</th>
@@ -212,142 +219,10 @@
                               <td>10/11/19</td>
                               <td>@fat</td>
                             </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Larry</td>
-                              <td>the Bird</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@twitter</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@mdo</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">2</th>
-                              <td>Jacob</td>
-                              <td>Thornton</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Larry</td>
-                              <td>the Bird</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@twitter</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@mdo</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">2</th>
-                              <td>Jacob</td>
-                              <td>Thornton</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Larry</td>
-                              <td>the Bird</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@twitter</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@mdo</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">2</th>
-                              <td>Jacob</td>
-                              <td>Thornton</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Larry</td>
-                              <td>the Bird</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@twitter</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@mdo</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">2</th>
-                              <td>Jacob</td>
-                              <td>Thornton</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Larry</td>
-                              <td>the Bird</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@twitter</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@mdo</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">2</th>
-                              <td>Jacob</td>
-                              <td>Thornton</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Larry</td>
-                              <td>the Bird</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@twitter</td>
-                            </tr>
                           </tbody>
                         </table>
                       </div> <!-- table reponsive -->
                     </div> <!-- tab pane content current projects -->
-
-
-
-
                    </div> <!-- tab content -->
                  </div> <!-- card-body -->
                </div> <!-- card -->

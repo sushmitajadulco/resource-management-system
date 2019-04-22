@@ -4,14 +4,14 @@ package com.idt.boot.service.impl;
 import com.idt.boot.repository.AllocationRepository;
 import com.idt.boot.repository.EmployeeRepository;
 import com.idt.boot.service.JasperService;
-import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.*;
 
 @Service
 public class JasperServiceImpl implements JasperService {
@@ -30,11 +30,13 @@ public class JasperServiceImpl implements JasperService {
         InputStream inputStream = null;
 
         try{
-            inputStream = this.getClass().getResourceAsStream("/jrxml/available-resources-report.jrxml");
+            inputStream = this.getClass().getResourceAsStream("/jrxml/allocation-report.jrxml");
             dataSource = new JRBeanCollectionDataSource(allocationRepository.findAll());
 
             export(inputStream, dataSource);
 
+        } catch (JRException e) {
+            e.printStackTrace();
         } finally {
             if (inputStream != null) {
                 inputStream.close();
@@ -43,7 +45,45 @@ public class JasperServiceImpl implements JasperService {
     }
 
     @Override
-    public void export(InputStream inputStream, JRBeanCollectionDataSource dataSource) {
+    public void export(InputStream inputStream, JRBeanCollectionDataSource dataSource) throws JRException {
+        try {
+            Map<String, Object> parameters = new HashMap<>();
 
+
+            String months [] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
+                                "Nov", "Dec"};
+
+            List<String> reportMonths = new ArrayList();
+            Date today = new Date();
+            Calendar cal =  Calendar.getInstance();
+            cal.setTime(today);
+            int curr_month = cal.get(Calendar.MONTH);
+            for(int i = curr_month; i<= curr_month+3; i++) {
+                reportMonths.add(months[i]);
+            }
+
+            List<String> allocationList = new ArrayList();
+            List<String> totalAllocations = new ArrayList();
+
+            parameters.put("monthList", reportMonths);
+
+            JasperReport jasperReport = JasperCompileManager.compileReport(inputStream);
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+
+
+        } catch ( JRException e) {
+            throw(e);
+        }
+
+    }
+
+
+    public void exportToPdf(String fileName, JasperPrint jasperPrint) throws JRException {
+        try {
+            JasperExportManager.exportReportToPdfFile(jasperPrint, "reports/" + fileName + ".pdf");
+        } catch ( JRException e) {
+            throw(e);
+        }
     }
 }

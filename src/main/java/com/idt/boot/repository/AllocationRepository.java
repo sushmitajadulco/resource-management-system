@@ -14,4 +14,6 @@ public interface AllocationRepository extends JpaRepository<Allocation, Long> {
 
     List<Allocation> findAllByStartDateLessThanEqualAndEndDateGreaterThanEqualAndEmployeeId(LocalDate endDate, LocalDate startDate,
                                                                                           Long id);
+
+
 }

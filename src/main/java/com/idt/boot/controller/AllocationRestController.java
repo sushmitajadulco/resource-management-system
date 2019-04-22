@@ -26,4 +26,9 @@ public class AllocationRestController {
         return allocationRepository.findByProjectId(id);
     }
 
+    @GetMapping("/listByEmployee/{id}")
+    public List<Allocation> getAllocationsByEmployee(@PathVariable final Long id) {
+        return allocationRepository.findByEmployeeId(id);
+    }
+
 }

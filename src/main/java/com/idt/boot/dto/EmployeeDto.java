@@ -11,7 +11,6 @@ public class EmployeeDto {
 
     private String firstName;
     private String lastName;
-    private String middleName;
     private Long designationId;
     private Long levelId;
     private List<Allocation> allocationList = new ArrayList<>();
@@ -33,14 +32,6 @@ public class EmployeeDto {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
     }
 
     public Long getDesignationId() {
@@ -71,7 +62,6 @@ public class EmployeeDto {
         Employee employee = new Employee();
         employee.setFirstName(firstName);
         employee.setLastName(lastName);
-        employee.setMiddleName(middleName);
         employee.setAllocationList(allocationList);
 
         return employee;

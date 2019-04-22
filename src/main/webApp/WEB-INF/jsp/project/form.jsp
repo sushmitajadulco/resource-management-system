@@ -66,7 +66,6 @@
        	            },
        	            data: JSON.stringify(modelObj),
        	            success: function (data) {
-       	            	console.log("POST API RESPONSE::"+ data);
                         localStorage.setItem("modalId", "#successModal");
        	            },
        	            error: function (jqXHR, textStatus, errorThrown) {

@@ -44,6 +44,9 @@
                <div class="modal-footer">
                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                  <button type="button" class="btn btn-primary" onclick="save()">Save changes</button>
+                 <div id="warning-msg" style="display:none">
+                    <p style="color: red;">Cannot add project allocation.</p>
+                 </div
                </div>
                </form>
              </div>

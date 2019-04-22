@@ -1,17 +1,29 @@
 <!DOCTYPE html>
+
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <html lang="en">
     <jsp:include page="include/header.jsp"/>
 
+    <script>
+        function generateReport() {
+            $.ajax({
+                 url: "/api/report/export" ,
+                 type: "get",
+                 success: function (project) {
+               }, error: function (jqXHR, textStatus, errorThrown) {},
+             });
+        }
+    </script>
+
     <body>
             <main role="main">
-
               <section class="jumbotron text-center">
                 <div class="container">
                   <h1 class="jumbotron-heading">Welcome to Resource Management System</h1>
-                  <p class="lead text-muted">This system will serve as a tracker for all the company’s human resources against all projects.</p>
+                  <p class="lead text-muted">This system will serve as a tracker for all the companys human resources against all projects.</p>
                   <p>
-                    <a href="#" class="btn btn-primary my-2">Get Started</a>
-                    <a href="#" class="btn btn-secondary my-2">Generate Report</a>
+                    <a href="#" class="btn btn-secondary my-2" onclick="generateReport()">Generate Report</a>
                   </p>
                 </div>
               </section>

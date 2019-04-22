@@ -19,6 +19,7 @@
                }, error: function (jqXHR, textStatus, errorThrown) {},
               });
         });
+
     </script>
 
 
@@ -26,19 +27,19 @@
         <main role="main">
           <div class="container">
 
-            <div class="card">
+            <div class="card project-profile">
               <div class="card-header">
                <div class="float-left">
                     <h4>Project Profile</h4>
                 </div>
                 <div class="float-right">
-                   <button type="button" class="btn btn-warning btn-sm"><i class="far fa-edit"></i></button>
+                   <button type='button' class='btn btn-warning btn-sm'><i class='fas fa-pencil-alt' style='color: white'></i></button>
                    <button type="button" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>
                 </div>
               </div>
-              <div class="card-body">
+              <div class="card-body profile-info">
                 <div class="row">
-                  <div class="col col-md-2"><i class="far fa-edit"></i></div>
+                  <div class="col col-md-2"><i class="fas fa-envelope-open-text fa-7x"></i></div>
                   <div class="col col-md-2">
                     <p>Name:</p>
                     <p>Description:</p>

@@ -19,12 +19,6 @@ public class Employee {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "middle_name")
-    private String middleName;
-
-    @Column(name = "email")
-    private String email;
-
     @ManyToOne
     @JoinColumn(name = "designation_id")
     private Designation designation;
@@ -64,14 +58,6 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
     public Designation getDesignation() {
         return designation;
     }
@@ -106,6 +92,6 @@ public class Employee {
 
     @Override
     public String toString() {
-        return this.firstName + " " + this.middleName + ", " + this.lastName;
+        return this.firstName + " " + this.lastName;
     }
 }
