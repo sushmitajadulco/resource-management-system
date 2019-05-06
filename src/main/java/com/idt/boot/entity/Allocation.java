@@ -20,9 +20,9 @@ public class Allocation {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
-    @Column(name = "status")
+    @Column(name = "is_current")
     @Type(type = "yes_no")
-    private Boolean status;
+    private Boolean isCurrent = true;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "percentage", nullable = false)
@@ -38,6 +38,14 @@ public class Allocation {
 
     public Allocation() {
 
+    }
+
+    public Boolean getCurrent() {
+        return isCurrent;
+    }
+
+    public void setCurrent(Boolean current) {
+        isCurrent = current;
     }
 
     public Long getId() {
@@ -62,14 +70,6 @@ public class Allocation {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
-    }
-
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
-        this.status = status;
     }
 
     public AllocationPercentage getPercentage() {

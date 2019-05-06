@@ -10,7 +10,9 @@ import java.util.List;
 @Repository
 public interface AllocationRepository extends JpaRepository<Allocation, Long> {
 
-    List<Allocation> findByProjectId(Long id);
+    List<Allocation> findByEmployeeIdAndIsCurrent(Long id, Boolean isCurrent);
+
+    List<Allocation> findByEmployeeIdAndIsCurrentFalse(Long id);
 
     List<Allocation> findAllByStartDateLessThanEqualAndEndDateGreaterThanEqualAndEmployeeId(LocalDate endDate, LocalDate startDate,
                                                                                           Long id);

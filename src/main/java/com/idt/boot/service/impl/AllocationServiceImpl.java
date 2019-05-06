@@ -54,6 +54,23 @@ public class AllocationServiceImpl implements AllocationService {
         return allocationList;
     }
 
+    @Override
+    public List<Allocation> getAllCurrentAllocationsByEmployee(Long id) {
+        return allocationRepository.findByEmployeeIdAndIsCurrent(id, true);
+    }
+
+    @Override
+    public List<Allocation> getAllPastAllocationsByEmployee(Long id) {
+        return allocationRepository.findByEmployeeIdAndIsCurrentFalse(id);
+    }
+
+    @Override
+    public Allocation getAllocation(Long id) {
+        return allocationRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException(Allocation.class, id)
+        );
+    }
+
     private boolean isAllocationPossible(Allocation allocation) {
         List<Allocation> allocationList = allocationRepository.findAllByStartDateLessThanEqualAndEndDateGreaterThanEqualAndEmployeeId(
                 allocation.getEndDate(),

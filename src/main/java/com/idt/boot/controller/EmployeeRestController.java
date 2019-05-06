@@ -50,4 +50,9 @@ public class EmployeeRestController {
         return new ResponseEntity<>(employeeService.addAllocation(allocationDto), HttpStatus.OK);
     }
 
+    @PutMapping("/editAllocation/{id}")
+    public ResponseEntity<Employee> editProjectAllocationToEmployee(@PathVariable final Long id, @RequestBody final AllocationDto allocationDto) {
+        return new ResponseEntity<>(employeeService.updateAllocation(allocationDto, id), HttpStatus.OK);
+    }
+
 }

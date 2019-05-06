@@ -12,4 +12,10 @@ public interface AllocationService {
     public Allocation createAllocation(Employee employee, Project project, AllocationDto allocationDto);
 
     public List<Allocation> updateAllocation(AllocationDto allocationDto, Long id);
+
+    public List<Allocation> getAllCurrentAllocationsByEmployee(Long id);
+
+    public List<Allocation> getAllPastAllocationsByEmployee(Long id);
+
+    public Allocation getAllocation(Long id);
 }

@@ -3,7 +3,9 @@
     <jsp:include page="../include/header.jsp"/>
 
     <script>
-            var employeeProfileId=0;
+            var employeeProfileId = 0;
+            var isEdit = false;
+            var allocationId = 0;
 
             $(document).ready(function() {
                 getAllocationFormData();
@@ -21,7 +23,108 @@
                    }, error: function (jqXHR, textStatus, errorThrown) {},
                   });
 
+                var table = $('#currentProjects').DataTable({
+                    "sAjaxSource": "/api/allocation/current/list/" + employeeProfileId,
+                    "sAjaxDataProp": "",
+                    "order": [[ 0, "desc" ]],
+                    "aoColumns": [
+                    { "mData": "id"},
+                    { "mData": "project.name" },
+                    { "mData": "project.description" },
+                    { "mData": "startDate" },
+                    { "mData": "endDate" },
+                    { "mData": "percentage" },
+                    {"defaultContent": "<button id='archive' type='button' class='btn btn-primary btn-sm'><i class='fas fa-user-times' style='color: white'></i></button>" +
+                    "<button id='edit' type='button' class='btn btn-warning btn-sm'><i class='fas fa-pencil-alt' style='color: white'></i></button>" +
+                    "<button id='delete' type='button' class='btn btn-danger btn-sm'><i class='far fa-trash-alt'></i></button>"
+                    }
+                    ]
+                });
+
+                $('#currentProjects tbody').on( 'click', 'button#archive', function () {
+                    var data = table.row( $(this).parents('tr') ).data();
+                    archiveAllocation(data);
+                } );
+
+                 $('#currentProjects tbody').on( 'click', 'button#edit', function () {
+                    isEdit = true;
+                    var data = table.row( $(this).parents('tr') ).data();
+                    allocationId = data.id;
+                    $("#allocationModal").modal();
+                    getAllocation();
+                } );
+
+                 $('#currentProjects tbody').on( 'click', 'button#delete', function () {
+                  var data = table.row( $(this).parents('tr') ).data();
+                  deleteProject('/api/project/delete/' + data.id);
+                });
             });
+
+            function archiveAllocation(data) {
+                    console.log("data: ", data);
+                    console.log("data.project.id: ", data.project.id);
+                    var obj = {
+                        employeeId: employeeProfileId,
+                        projectId: data.project.id,
+                        startDate: data.startDate,
+                        endDate: data.endDate,
+                        percentage: data.percentage,
+                        current: false
+                     }
+                     console.log("obj", obj);
+                    $.ajax({
+                        type: "PUT",
+                        url: "/api/employee/editAllocation/" + data.id,
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        data: JSON.stringify(obj),
+                        success: function (data) {
+                            console.log("success");
+                            localStorage.setItem("modalId", "#successModal");
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            localStorage.setItem("modalId", "#errorModal");
+                        },
+                        complete: function() {
+                            //location.href="/employee/profile/" + employeeProfileId;
+                        }
+                    });
+            }
+
+            function getAllocation(id) {
+                        $.ajax({
+                           url: "/api/allocation/" + allocationId,
+                           type: "get",
+                           success: function (allocation) {
+                              console.log("allocation: ", allocation);
+                              console.log("allocation.project.name: ", allocation.project.name);
+                              $('#project').val(allocation.project.id);
+                              $('#startDate').val(allocation.startDate);
+                              $('#endDate').val(allocation.endDate);
+                              $('#allocation').val(allocation.percentage);
+                           }, error: function (jqXHR, textStatus, errorThrown) {},
+                        });
+            }
+
+            function getPastProjects() {
+                var table = $('#pastProjects').DataTable({
+                    "sAjaxSource": "/api/allocation/past/list/" + employeeProfileId,
+                    "sAjaxDataProp": "",
+                    "order": [[ 0, "desc" ]],
+                    "aoColumns": [
+                    { "mData": "id"},
+                    { "mData": "project.name" },
+                    { "mData": "project.description" },
+                    { "mData": "startDate" },
+                    { "mData": "endDate" },
+                    { "mData": "percentage" },
+                    {"defaultContent":
+                    "<button id='edit' type='button' class='btn btn-warning btn-sm'><i class='fas fa-pencil-alt' style='color: white'></i></button>"
+                    }
+                    ]
+                });
+            }
 
             function getAllocationFormData() {
                 let project = $('#project');
@@ -54,24 +157,26 @@
 
             }
 
-            var isEdit = false;
-             function save() {
 
+             function saveAllocation() {
+                        console.log("isEdit: ", isEdit);
                    		var modelObj = {
                    				employeeId:  employeeProfileId,
                    				projectId: $('#project').val(),
                    				startDate: $("#startDate").val(),
                    				endDate: $("#endDate").val(),
-                   				percentage: $("#allocation").val()
+                   				percentage: $("#allocation").val(),
+                   				isCurrent: true
                    		};
 
                         console.log("modelObj: ", modelObj);
                         console.log("isEdit", isEdit);
                          var method, endPoint;
+
                          if( isEdit == true) {
                             method = "PUT";
-                            endPoint = "/api/employee/edit/" + employeeProfileId;
-                            console.log("edited");
+                            endPoint = "/api/employee/editAllocation/" + allocationId;
+                            isEdit = false;
                          } else {
                             method = "POST";
                             endPoint = "/api/employee/addAllocation";
@@ -87,34 +192,17 @@
                    	                $('#warning-msg').hide();
                    	                $('#allocationModal').modal('hide');
                                     localStorage.setItem("modalId", "#successModal");
+                                    //location.href="/employee/profile/" + employeeProfileId;
                    	            },
                    	            error: function (jqXHR, textStatus, errorThrown) {
                    	                //localStorage.setItem("modalId", "#errorModal");
                    	                $('#warning-msg').show();
                    	            },
-                   	            complete: function() {
-                   	                //location.href="/employee/profile/" + employeeProfileId;
-                   	            }
 
                    	        });
                    	}
 
-                var table = $('#currentProjects').DataTable({
-                    "sAjaxSource": "/api/",
-                    "sAjaxDataProp": "",
-                    "order": [[ 0, "desc" ]],
-                    "aoColumns": [
-                    { "mData": "id"},
-                    { "mData": "firstName" },
-                    { "mData": "lastName" },
-                    { "mData": "designation.name" },
-                    { "mData": "level.name" },
-                    {"defaultContent": "<button id='view' type='button' class='btn btn-primary btn-sm'><i class='fas fa-envelope-open-text'></i></button>" +
-                    "<button id='edit' type='button' class='btn btn-warning btn-sm'><i class='fas fa-pencil-alt' style='color: white'></i></button>" +
-                    "<button id='delete' type='button' class='btn btn-danger btn-sm'><i class='far fa-trash-alt'></i></button>"
-                    }
-                    ]
-                });
+
     </script>
 
     <body>
@@ -153,27 +241,27 @@
               <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs">
                       <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#CurrentMembers">Current Projects</a>
+                        <a class="nav-link active" data-toggle="tab" href="#currentProjectsTab" >Current Projects</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link " data-toggle="tab" href="#PastMembers">Past Projects</a>
+                        <a class="nav-link " data-toggle="tab" href="#pastProjectsTab" onclick="getPastProjects()">Past Projects</a>
                       </li>
                     </ul>
               </div>
 
               <div class="card-body card-content">
                 <div class="tab-content">
-                  <div class="tab-pane container active" id="CurrentMembers">
+                  <div class="tab-pane container active" id="currentProjectsTab">
                     <div class="table-responsive">
                         <div class="float-right">
-                            <button type="button" class="btn btn-primary float-right button-margin" data-toggle="modal" data-target="#allocationModal">Add Project</button>
+                            <button type="button" class="btn btn-primary float-right button-margin" data-toggle="modal" data-target="#allocationModal">Add Allocation</button>
                          </div>
                         <table id="currentProjects" class="table table-striped table-bordered" style="width:100%">
                           <thead class="custom-table-head">
                              <tr>
                                 <th>ID</th>
                                 <th>Project Name</th>
-                                <th>Description</th>
+                                <th>Project Description</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Allocation</th>
@@ -185,40 +273,22 @@
                       </div> <!-- table reponsive -->
                     </div> <!-- tab pane content current projects -->
 
-                  <div class="tab-pane container fade" id="PastMembers">
+                  <div class="tab-pane container fade" id="pastProjectsTab">
                     <div class="table-responsive">
-                        <table id="currentProjects" class="table table-striped table-bordered" style="width:100%">
+                        <table id="pastProjects" class="table table-striped table-bordered" style="width:100%">
                           <thead class="custom-table-head">
                              <tr>
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>Description</th>
+                                <th>Project Name</th>
+                                <th>Project Description</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
-                                <th>Action</th>
+                                <th>Allocation</th>
+                                <th>Actions</th>
                              </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>
-                                 <a href="/project/profile"><button type="button" class="btn btn-primary btn-sm"><i class="far fa-clipboard"></i></button></a>
-                                 <button type="button" class="btn btn-warning btn-sm"><i class="far fa-edit"></i></button>
-                                 <button type="button" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>
-                               </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">2</th>
-                              <td>Jacob</td>
-                              <td>Thornton</td>
-                              <td>10/11/19</td>
-                              <td>10/11/19</td>
-                              <td>@fat</td>
-                            </tr>
+
                           </tbody>
                         </table>
                       </div> <!-- table reponsive -->

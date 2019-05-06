@@ -15,9 +15,19 @@ public class AllocationDto {
     private AllocationPercentage percentage;
     private Long projectId;
     private Long employeeId;
+    private Boolean isCurrent;
+
 
     public AllocationDto() {
 
+    }
+
+    public Boolean getCurrent() {
+        return isCurrent;
+    }
+
+    public void setCurrent(Boolean current) {
+        isCurrent = current;
     }
 
     public LocalDate getStartDate() {

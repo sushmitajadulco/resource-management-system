@@ -40,7 +40,7 @@
         }
 
        function save() {
-            console.log("isEdit: " + isEdit);
+
        		var modelObj = {
        				name: $("#name").val(),
        				description: $("#description").val(),

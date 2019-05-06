@@ -17,4 +17,7 @@ public enum AllocationPercentage {
     public Double getPercentage() {
         return percentage;
     }
+
+
+
 }

@@ -21,14 +21,27 @@ public class AllocationRestController {
     @Autowired
     private AllocationRepository allocationRepository;
 
-    @GetMapping("/list/{id}")
-    public List<Allocation> getAllocations(@PathVariable final Long id) {
-        return allocationRepository.findByProjectId(id);
+    @Autowired
+    private AllocationService allocationService;
+
+    @GetMapping("/current/list/{id}")
+    public List<Allocation> getCurrentAllocationsByEmployee(@PathVariable final Long id) {
+        return allocationService.getAllCurrentAllocationsByEmployee(id);
     }
 
-    @GetMapping("/listByEmployee/{id}")
-    public List<Allocation> getAllocationsByEmployee(@PathVariable final Long id) {
-        return allocationRepository.findByEmployeeId(id);
+    @GetMapping("/past/list/{id}")
+    public List<Allocation> getPastAllocationsByEmployee(@PathVariable final Long id) {
+        return allocationService.getAllPastAllocationsByEmployee(id);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getCurrentAllocation(@PathVariable final Long id) {
+        return new ResponseEntity<>(allocationService.getAllocation(id), HttpStatus.OK);
+    }
+
+    //TODO: hard delete allocation
+    //@DeleteMapping("/{id}")
+
+
 
 }

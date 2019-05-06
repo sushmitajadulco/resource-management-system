@@ -84,12 +84,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = getEmployee(allocationDto.getEmployeeId());
         Project project = getProject(allocationDto.getProjectId());
 
-        System.out.println("\n\n\n\n\n\n");
         System.out.println(project.getName());
         System.out.println(employee.getLevel().getName());
         System.out.println(employee.getDesignation().getName());
-
-        System.out.println("\n\n\n\n\n\n");
 
         Allocation allocation = allocationService.createAllocation(employee, project, allocationDto);
         if (allocation != null) {
